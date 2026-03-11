@@ -1,3 +1,116 @@
+# Unidad 1 — Matrices, Archivos y Manejo de Errores
+
+## Objetivos de la Unidad
+
+Al finalizar esta unidad el alumno será capaz de:
+
+* Comprender qué es una **matriz** y cómo utilizarla en Python.
+* Leer y escribir **archivos en disco**.
+* Manejar **errores y excepciones** para evitar que los programas se rompan.
+* Aplicar estos conceptos para resolver problemas reales.
+
+---
+
+# 1. Matrices
+
+## ¿Qué es una matriz?
+
+Una **matriz** es una estructura de datos **bidimensional** compuesta por **filas y columnas**.
+
+Ejemplo matemático:
+
+|   |   |   |
+| - | - | - |
+| 1 | 2 | 3 |
+| 4 | 5 | 6 |
+| 7 | 8 | 9 |
+
+En Python se representa como una **lista de listas**.
+
+```python
+matriz = [
+    [1,2,3],
+    [4,5,6],
+    [7,8,9]
+]
+```
+
+---
+
+## Acceder a elementos de una matriz
+
+La sintaxis es:
+
+```
+matriz[fila][columna]
+```
+
+Ejemplo:
+
+```python
+print(matriz[0][1])
+```
+
+Resultado:
+
+```
+2
+```
+
+---
+
+## Recorrer una matriz
+
+Para recorrer una matriz usamos **dos ciclos for**.
+
+```python
+for fila in matriz:
+    for elemento in fila:
+        print(elemento)
+```
+
+---
+
+## Mostrar una matriz ordenada
+
+```python
+for fila in matriz:
+    for elemento in fila:
+        print(elemento, end=" ")
+    print()
+```
+
+Salida:
+
+```
+1 2 3
+4 5 6
+7 8 9
+```
+
+---
+
+## Crear una matriz vacía
+
+```python
+filas = 3
+columnas = 3
+
+matriz = []
+
+for i in range(filas):
+    fila = []
+    
+    for j in range(columnas):
+        fila.append(0)
+        
+    matriz.append(fila)
+
+print(matriz)
+```
+
+---
+
 ## 2. Archivos
 
 ### ¿Qué es un archivo?
@@ -60,27 +173,18 @@ Ejemplos:
 * `wb` → escritura en modo binario
 * `rb` → lectura en modo binario
 
----
+# Otros modos de archivos
 
-### Operaciones que podemos hacer con archivos
+Además de los modos básicos (`r`, `w`, `a`, `x`), Python permite **otros modos combinados** que agregan funcionalidades como **leer y escribir al mismo tiempo** o trabajar en **modo binario**.
 
-Una vez abierto el archivo se pueden realizar diversas operaciones como:
 
-* **Leer el contenido**
-* **Escribir contenido**
-* **Agregar información**
 
----
-
-### Cerrar un archivo
-
-Siempre que abrimos un archivo es importante **cerrarlo al finalizar** para liberar los recursos del sistema.
-
-Esto se hace utilizando el método:
-
-```python
-close()
-```
+| Modo | Descripción |
+|-----|-------------|
+| `r+` | Abre el archivo para **leer y escribir**. El archivo debe existir. |
+| `w+` | Abre el archivo para **leer y escribir**, pero **borra el contenido existente**. |
+| `a+` | Abre el archivo para **leer y escribir**, agregando contenido al final. |
+| `x+` | Crea el archivo para **leer y escribir**, pero falla si ya existe. |
 
 ---
 
@@ -144,17 +248,248 @@ with open("datos.txt", "r") as archivo:
     print(contenido)
 ```
 
-## Ejemplo práctico
+---
+## Ejemplos de Combinaciones
+### Ejemplo de `r+`
 
-Guardar nombres en un archivo:
+Permite leer y luego escribir en el mismo archivo.
 
 ```python
-with open("nombres.txt", "w") as archivo:
+archivo = open("datos.txt", "r+")
+contenido = archivo.read()
+print(contenido)
+archivo.write("\nNueva linea")
 
-    for i in range(3):
-        nombre = input("Nombre: ")
-        archivo.write(nombre + "\n")
+archivo.close()
+
+```
+
+
+# Funciones Útiles
+
+En Python existen varias funciones que permiten **leer, escribir y controlar la posición dentro de un archivo**.
+
+En esta guía veremos las siguientes funciones:
+
+* `readline()`
+* `readlines()`
+* `seek()`
+* `tell()`
+* `flush()`
+
+## readline()
+
+La función `readline()` permite **leer una sola línea del archivo**.
+
+Cada vez que se ejecuta, el cursor avanza a la siguiente línea.
+
+## Ejemplo
+
+```python
+with open("datos.txt", "r") as archivo:
+    linea = archivo.readline()
+    print(linea)
+```
+
+Si queremos leer varias líneas:
+
+```python
+with open("datos.txt", "r") as archivo:
+    print(archivo.readline())
+    print(archivo.readline())
+```
+
+### Salida posible
+
+```
+Hola
+Python
+```
+
+Cada llamada a `readline()` devuelve **la siguiente línea del archivo**.
+
+
+## readlines()
+
+La función `readlines()` **lee todas las líneas del archivo y las guarda en una lista**.
+
+Cada elemento de la lista representa una línea del archivo.
+
+## Ejemplo
+
+```python
+with open("datos.txt", "r") as archivo:
+    lineas = archivo.readlines()
+
+print(lineas)
+```
+
+### Resultado
+
+```
+['Hola\n', 'Python\n', 'Archivos\n']
+```
+
+Observación:
+Cada línea incluye el **salto de línea `\n`**.
+
+Luego se pueden recorrer las líneas con un `for`.
+
+```python
+for linea in lineas:
+    print(linea)
+```
+
+## seek()
+
+La función `seek()` permite **mover el cursor dentro del archivo**.
+
+El **cursor** indica desde qué posición se leerá o escribirá el archivo.
+
+## Ejemplo
+
+```python
+archivo = open("datos.txt", "r")
+archivo.seek(0)
+contenido = archivo.read()
+print(contenido)
+archivo.close()
+```
+
+`seek(0)` mueve el cursor **al inicio del archivo**.
+
+También se puede mover a otras posiciones:
+
+```python
+archivo.seek(5)
+```
+
+Esto mueve el cursor **al carácter número 5 del archivo**.
+
+
+
+## tell()
+
+La función `tell()` permite **saber en qué posición del archivo se encuentra el cursor**.
+
+## Ejemplo
+
+```python
+archivo = open("datos.txt", "r")
+print(archivo.tell())
+archivo.read(5)
+print(archivo.tell())
+archivo.close()
+```
+
+### Salida posible
+
+```
+0
+5
+```
+
+Esto significa que el cursor **avanzó 5 caracteres** después de la lectura.
+
+
+
+## flush()
+
+La función `flush()` **fuerza a que los datos se guarden inmediatamente en el archivo**.
+
+Normalmente Python guarda los datos cuando:
+
+* se cierra el archivo
+* o el buffer se llena
+
+`flush()` permite **forzar la escritura antes de cerrar el archivo**.
+
+## Ejemplo
+
+```python
+archivo = open("datos.txt", "w")
+archivo.write("Hola mundo")
+archivo.flush()
+archivo.close()
+```
+
+Esto asegura que el contenido se **escriba inmediatamente en el disco**.
+
+
+---
+
+# 3. Manejo de Errores
+
+## ¿Qué es una excepción?
+
+Una **excepción** es un error que ocurre durante la ejecución del programa.
+
+Ejemplo de error:
+
+```python
+print(10/0)
+```
+
+Resultado:
+
+```
+ZeroDivisionError
 ```
 
 ---
 
+## try / except
+
+El bloque `try/except` permite manejar errores sin que el programa se detenga.
+
+```python
+try:
+    numero = int(input("Ingrese un número: "))
+except:
+    print("Debe ingresar un número válido")
+```
+
+---
+
+## Ejemplo con división
+
+```python
+try:
+    a = int(input("Numero: "))
+    b = int(input("Numero: "))
+
+    resultado = a / b
+
+    print(resultado)
+
+except:
+    print("Error en la operación")
+```
+
+---
+
+## Capturar errores específicos
+
+```python
+try:
+    numero = int(input("Numero: "))
+except ValueError:
+    print("Entrada inválida")
+```
+
+---
+
+## finally
+
+El bloque `finally` se ejecuta **siempre**, haya o no errores.
+
+```python
+try:
+    print("Inicio del programa")
+except:
+    print("Ocurrió un error")
+finally:
+    print("Fin del programa")
+```
+
+---
