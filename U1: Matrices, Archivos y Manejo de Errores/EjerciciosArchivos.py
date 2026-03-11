@@ -18,6 +18,13 @@ Recordar que una base de datos tiene un campo ID (identificador) que evita que a
 Devolver la informacion de las columnas y mostrarla como: "Esta tabla tiene las columnas: id, nombre, email, contraseña". 
 Luego leer el archivo y mostrar la informacion de fila y mostrarla en formato: "ID: 1, Nombre: Ana, Email: ..."
 
-Ejercicio 7: Dado el archivo anterior, hacer una funcion que busque la informacion de un usuario por su ID y 
+Ejercicio 7: Dado el archivo anterior, hacer una funcion "create(nombre, email, contraseña)" que cree un nuevo usuario con un ID unico y mostrar el nuevo archivo.
+
+Ejercicio 8: Dado el archivo anterior, hacer una funcion "delete(id)" que elimine el usuario con el ID especificado y mostrar el nuevo archivo.
+
+Ejercicio 9: Dado el archivo anterior, hacer una funcion "update(id, nombre, email, contraseña)" que actualice la informacion del usuario con el ID especificado y mostrar el nuevo archivo.
+
+Ejercicio 10: Dado el archivo anterior, hacer una funcion "find(id)" que busque la informacion de un usuario por su ID y 
 devuelva su nombre y email.
+
 """
