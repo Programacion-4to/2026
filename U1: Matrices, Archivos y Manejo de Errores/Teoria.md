@@ -492,4 +492,32 @@ finally:
     print("Fin del programa")
 ```
 
----
+## Raise
+
+La palabra clave `raise` permite **lanzar una excepción de forma manual**. Esto corta el programa y muestra el mensaje de error.
+
+```python
+def dividir(a, b):
+    if b == 0:
+        raise ValueError("No se puede dividir por cero")
+    return a / b
+```
+
+
+
+
+## Tipos de errores comunes
+| Error | Descripción |
+|------|-------------- |
+| `SyntaxError` | Ocurre al escribir código con errores de sintaxis.
+| `IndentationError` | Ocurre al escribir código con errores de indentación.
+| `ValueError` | Ocurre al intentar convertir un valor a un tipo incompatible.
+| `TypeError` | Ocurre al intentar realizar una operación con tipos de datos incompatibles. 
+| `IndexError` | Ocurre al intentar acceder a un índice fuera del rango de una lista o matriz. |
+| `KeyError` | Ocurre al intentar acceder a una clave que no existe en un diccionario. |
+| `NameError` | Ocurre al intentar usar una variable que no ha sido definida. | 
+| `ZeroDivisionError` | Ocurre al intentar dividir por cero. |
+| `FileNotFoundError` | Ocurre al intentar abrir un archivo que no existe. | 
+| `AttributeError` | Ocurre al intentar acceder a un atributo o método que no existe en un objeto. |
+| `ImportError` | Ocurre al intentar importar un módulo que no existe. |
+
