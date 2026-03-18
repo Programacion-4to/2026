@@ -1,9 +1,6 @@
 ## Ejercicio 1: Manejo de errores
 
-Crear un programa que pida al usuario un número y lo divida por 10. Manejar los siguientes errores:
-
--   Si el usuario ingresa algo que no es un número, mostrar un mensaje de error.
--   Si el usuario ingresa 0, mostrar un mensaje de error indicando que no se puede dividir por cero.
+Crear un programa que pida al usuario un número y lo divida por 10. Si el usuario ingresa algo que no es un número, mostrar un mensaje de error.
 
 ## Ejercicio 2: Archivos
 Crear un programa que:
