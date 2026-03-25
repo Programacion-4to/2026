@@ -58,26 +58,31 @@ Crear:
 
 Crear un sistema de pedidos con:
 
-- __Clase `Producto`__
-    - atributos:
-        - `nombre`
-        - `precio`
 
-- __Clase `Pedido`__
-    - atributos:
-        - `lista de productos`
-    - métodos:
-        - `agregar_producto(producto)`
-        - `total()`
 
-- __Clase `Cliente`__
-    - atributos:
-        - `nombre`
-        - `lista de pedidos`
+__Clase `Producto`__
 
-    - métodos:
-        - `hacer_pedido(pedido)`
-        - `total_gastado()`
+| Tipo | Descripción |
+|---|---|
+| Atributo | `nombre` |
+| Atributo | `precio` |
+
+__Clase `Pedido`__
+
+| Tipo | Descripción |
+| --- | --- |
+| Atributo | `lista de productos` |
+| Método | `agregar_producto(producto)` |
+| Método | `total()` |
+
+__Clase `Cliente`__
+
+| Tipo | Descripción |
+| --- | --- |
+| Atributo | `nombre` |
+| Atributo | `lista de pedidos` -> historial de pedidos realizados |
+| Método | `hacer_pedido(pedido)` -> agrega el pedido a la lista de pedidos, registra el gasto y vacia el pedido actual |
+| Método | `total_gastado()` -> suma el total de todos los pedidos realizados |
 
 
 ### Ejemplo de uso esperado:
@@ -97,62 +102,84 @@ print(cliente.total_gastado())
 
 ## Ejercicio 7 — Herencia básica
 
-Crear una clase base Animal:
+Crear una `clase base Animal`:
 
-atributo: nombre
+| Tipo | Descripción |
+|---|---|
+| Atributo | `nombre` |
+| Método | `hacer_ruido()` → imprime "Hace un sonido" |
 
-método: hablar() → imprime "Hace un sonido"
+Crear una `clase Perro` que __herede__ de `Animal`:
 
-Crear una clase Perro que herede de Animal:
-
-redefinir hablar() → imprime "Guau"
+| Tipo | Descripción |
+|---|---|
+| Método | `hacer_ruido()` → imprime "Guau" |
 
 Ayuda: usar override (sobreescritura)
 
 ## Ejercicio 8 — Herencia + lógica
 
-Crear una clase CuentaBancaria:
+Crear una clase `CuentaBancaria`:
 
-atributo protegido: _saldo
+| Tipo | Descripción |
+|---|---|
+| Atributo | `_saldo` (saldo actual) |
+| Método | `ver_saldo()` (muestra el saldo actual) |
+| Metodo | `depositar(monto)` |
 
-método: depositar(monto)
+Crear dos clases __hijas__:
 
-Crear dos clases hijas:
+- `CajaAhorro`:
 
-- CajaAhorro:
-    - método retirar(monto) (no permite saldo negativo)
-- CuentaCorriente
-    - permite retirar incluso si queda negativo (descubierto)
+| Tipo | Descripción |
+|---|---|
+| Método | `retirar(monto)` (no permite saldo negativo) |
+
+- `CuentaCorriente`
+
+| Tipo | Descripción |
+|---|---|
+| Método | `retirar(monto)` (permite saldo negativo) |
+
+
+
+
 
 ## Ejercicio 9 — Herencia con uso de super()
 
-Crear una clase base Persona:
+Crear una `clase Persona` (Base):
 
-atributos:
-- nombre
-- edad
+| Tipo | Descripción |
+|---|---|
+| Atributos | nombre |
+| Atributos | edad |
 
-Crear una clase Empleado que herede de Persona:
+Crear una `clase Empleado` que __herede__ de 
+`Persona`:
 
-atributo extra:
-- sueldo
+| Tipo | Descripción |
+|---|---|
+| Atributo | sueldo |
+| Metodo | mostrar_datos() → imprime nombre, edad y sueldo |
 
-método:
-- mostrar_datos() → imprime nombre, edad y sueldo
+## Ejercicio 10 — Herencia + composición
 
-# Ejercicio 10 — Herencia + composición
+Crear: `Clase Empleado`
 
-Crear:
+| Tipo | Descripción |
+|---|---|
+| Atributo | nombre del empleado |
+| Atributo | sueldo del empleado |
+| Metodo | mostrar_datos() → imprime nombre y sueldo |
 
-Clase Empleado
-- nombre
-- sueldo
-Clase Gerente (hereda de Empleado)
-- lista de empleados a cargo
 
-método:
-- agregar_empleado(emp)
-- total_sueldos() → suma de sueldos de todos los empleados
+`Clase Gerente` (hereda de Empleado)
+
+| Tipo | Descripción |
+|---|---|
+| Atributo | lista de empleados a cargo |
+| Metodo | agregar_empleado(emp) → agrega un empleado a la lista |
+| Metodo | total_sueldos() → suma de sueldos de todos los empleados 
 
 ## Ejercicio 11 — Sistema completo (MercadoLibre)
 
