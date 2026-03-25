@@ -262,3 +262,18 @@ Crear un sistema de usuarios:
 |---|---|
 | `login(email, contrasena)` | Busca en `tienda.lista_usuarios` y retorna el usuario si las credenciales son correctas, `None` si no |
 | `mostrar_menu(usuario)` | Muestra opciones según el tipo: menú de compras si es `Cliente`, menú de administración si es `Admin` |
+
+### Ejemplo de uso esperado:
+
+#### Usuarios de prueba
+
+| Login | User | Password | Vista |
+|---|---|---|---|
+| — | facundo@mail.com | 1234 | Cliente |
+| — | admin@mail.com | admin123 | Admin |
+
+#### Funcionalidades por tipo de usuario
+
+**Cliente:** ve los productos, los agrega al carrito, ve el total, vacía o compra.
+
+**Admin:** ve todos los productos, los elimina, y crea nuevos con nombre y precio.
