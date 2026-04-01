@@ -30,6 +30,12 @@ class Perro(Animal):
     def hacer_ruido(self):
         print("Guau")
 
+    def __str__(self):
+        return f"Perro de raza {self.raza}"
+    
+    def __repr__(self):
+        return f"Perro de raza {self.raza}" 
+
 
 class Dueno:
     def __init__(self, nom, gen, age):
@@ -49,12 +55,12 @@ class Dueno:
             self.mascotas.append(animal)
 
 
-perrito = Perro(1,"Marron","Caniche")
-perrito.hacer_ruido()
-print(perrito.raza)
+# perrito = Perro(1,"Marron","Caniche")
+# perrito.hacer_ruido()
+# print(perrito.raza)
 
-tigre = Animal(4,["Naranja","Negro"])
-tigre.hacer_ruido()
+# tigre = Animal(4,["Naranja","Negro"])
+# tigre.hacer_ruido()
 
 
 # facundo = Dueno("facundo","M",21)
@@ -64,6 +70,16 @@ tigre.hacer_ruido()
 # print(facundo.mascotas)
 
 
+perro1 = Perro(2,"Blanco","Labrador")
+perro2 = Perro(3,"Negro","Pastor Aleman")
+
+print(perro1)
+
+perros = [perro1, perro2]
+
+print(perros)
+
+
 
 
 """
@@ -71,3 +87,5 @@ Dueno -> List[Animal]
 
 
 """
+
+
