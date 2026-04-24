@@ -6,23 +6,21 @@
   <title>Programación 2026 · 4to año</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0a0b14;
-      --bg-soft: #10131f;
-      --surface: rgba(26, 29, 45, 0.6);
-      --surface2: rgba(34, 38, 58, 0.5);
-      --border: rgba(108, 142, 245, 0.15);
-      --border-strong: rgba(108, 142, 245, 0.4);
-      --accent1: #6c8ef5;
-      --accent2: #a78bfa;
-      --accent3: #34d399;
-      --accent4: #f472b6;
-      --text: #e6ebf5;
-      --muted: #8892a4;
+      --bg: #fafaf9;
+      --surface: #ffffff;
+      --border: #e7e5e4;
+      --border-soft: #f0efed;
+      --text: #1c1917;
+      --text-soft: #44403c;
+      --muted: #78716c;
+      --accent: #1c1917;
+      --accent-soft: #57534e;
+      --tag-bg: #f5f5f4;
     }
 
     html { scroll-behavior: smooth; }
@@ -32,546 +30,236 @@
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
-      overflow-x: hidden;
-      position: relative;
+      font-weight: 400;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* ── ANIMATED BACKGROUND ── */
-    .bg-layer {
-      position: fixed;
-      inset: 0;
-      z-index: -2;
-      overflow: hidden;
-      pointer-events: none;
-    }
-    .blob {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.45;
-      will-change: transform;
-    }
-    .blob-1 {
-      width: 520px; height: 520px;
-      background: radial-gradient(circle, #6c8ef5 0%, transparent 70%);
-      top: -120px; left: -100px;
-      animation: float1 18s ease-in-out infinite;
-    }
-    .blob-2 {
-      width: 460px; height: 460px;
-      background: radial-gradient(circle, #a78bfa 0%, transparent 70%);
-      top: 30%; right: -120px;
-      animation: float2 22s ease-in-out infinite;
-    }
-    .blob-3 {
-      width: 380px; height: 380px;
-      background: radial-gradient(circle, #34d399 0%, transparent 70%);
-      bottom: -80px; left: 30%;
-      opacity: 0.3;
-      animation: float3 26s ease-in-out infinite;
-    }
-    .blob-4 {
-      width: 340px; height: 340px;
-      background: radial-gradient(circle, #f472b6 0%, transparent 70%);
-      top: 60%; left: 10%;
-      opacity: 0.25;
-      animation: float1 30s ease-in-out infinite reverse;
+    .container {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 0 32px;
     }
 
-    @keyframes float1 {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(80px, 60px) scale(1.1); }
-      66% { transform: translate(-40px, 100px) scale(0.9); }
-    }
-    @keyframes float2 {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(-120px, -80px) scale(1.15); }
-    }
-    @keyframes float3 {
-      0%, 100% { transform: translate(0, 0); }
-      50% { transform: translate(60px, -80px); }
-    }
-
-    .grid-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      background-image:
-        linear-gradient(rgba(108, 142, 245, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(108, 142, 245, 0.04) 1px, transparent 1px);
-      background-size: 48px 48px;
-      mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 80%);
-      -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 80%);
-      pointer-events: none;
-    }
-
-    /* Canvas for particles */
-    #particles {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-      opacity: 0.6;
-    }
-
-    /* ── HEADER / HERO ── */
+    /* ── HEADER ── */
     header {
-      padding: 120px 24px 100px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
+      padding: 120px 32px 80px;
+    }
+    header .container {
+      padding: 0;
     }
 
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(108, 142, 245, 0.08);
-      border: 1px solid var(--border-strong);
-      color: var(--accent1);
+    .eyebrow {
       font-size: .75rem;
-      font-weight: 600;
-      letter-spacing: .1em;
+      letter-spacing: .14em;
       text-transform: uppercase;
-      padding: 6px 16px;
-      border-radius: 999px;
-      margin-bottom: 28px;
-      backdrop-filter: blur(10px);
-      animation: fadeInDown 0.8s ease-out;
-    }
-    .badge::before {
-      content: '';
-      width: 6px; height: 6px;
-      background: var(--accent3);
-      border-radius: 50%;
-      box-shadow: 0 0 10px var(--accent3);
-      animation: pulse 2s ease-in-out infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(1.3); }
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 32px;
+      font-weight: 500;
     }
 
     header h1 {
-      font-size: clamp(2.4rem, 6.5vw, 5rem);
-      font-weight: 900;
-      letter-spacing: -.03em;
-      line-height: 1.05;
-      background: linear-gradient(120deg, #6c8ef5 0%, #a78bfa 40%, #f472b6 80%, #6c8ef5 100%);
-      background-size: 300% 300%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: gradientShift 8s ease infinite, fadeInUp 0.9s ease-out;
-      max-width: 960px;
-      margin: 0 auto;
-    }
-    @keyframes gradientShift {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-    }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 600;
+      letter-spacing: -.025em;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 20px;
     }
 
     header .tagline {
-      margin-top: 24px;
       color: var(--muted);
-      font-size: 1.15rem;
-      max-width: 620px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.6;
-      animation: fadeInUp 1s ease-out 0.2s backwards;
+      font-size: 1.05rem;
+      max-width: 560px;
+      line-height: 1.65;
     }
 
-    .hero-stats {
-      display: flex;
-      justify-content: center;
-      gap: 48px;
-      margin-top: 48px;
-      flex-wrap: wrap;
-      animation: fadeInUp 1.1s ease-out 0.4s backwards;
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 64px 0 56px;
     }
-    .stat {
-      text-align: center;
-    }
-    .stat-num {
-      font-size: 2.2rem;
-      font-weight: 800;
-      font-family: 'JetBrains Mono', monospace;
-      background: linear-gradient(135deg, var(--accent1), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .stat-label {
-      font-size: .75rem;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-top: 4px;
-    }
-
-    .scroll-hint {
-      margin-top: 72px;
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      color: var(--muted);
-      font-size: .7rem;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      animation: fadeIn 2s ease-out 1s backwards;
-    }
-    .scroll-hint::after {
-      content: '';
-      width: 1px;
-      height: 32px;
-      background: linear-gradient(180deg, var(--accent1), transparent);
-      animation: scrollBounce 2s ease-in-out infinite;
-    }
-    @keyframes scrollBounce {
-      0%, 100% { transform: scaleY(1); opacity: 1; }
-      50% { transform: scaleY(0.4) translateY(12px); opacity: 0.4; }
-    }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
     /* ── MAIN ── */
     main {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 60px 24px 100px;
-      position: relative;
+      padding: 0 32px 120px;
     }
 
-    .section-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 40px;
-    }
-    .section-header .line {
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, var(--border-strong), transparent);
-    }
     .section-label {
       font-size: .72rem;
-      font-weight: 700;
-      letter-spacing: .18em;
+      font-weight: 500;
+      letter-spacing: .14em;
       text-transform: uppercase;
-      color: var(--accent1);
+      color: var(--muted);
       font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 40px;
     }
 
     /* ── UNIT CARDS ── */
     .units {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      display: flex;
+      flex-direction: column;
       gap: 24px;
-      margin-bottom: 80px;
     }
 
     .unit-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 32px;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-      position: relative;
-      overflow: hidden;
-      backdrop-filter: blur(20px);
-      transition: transform 0.4s cubic-bezier(.2,.8,.2,1), border-color 0.3s, box-shadow 0.3s;
-      opacity: 0;
-      transform: translateY(40px);
-    }
-    .unit-card.in-view {
-      opacity: 1;
-      transform: translateY(0);
-      transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(.2,.8,.2,1), border-color 0.3s, box-shadow 0.3s;
-    }
-    .unit-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 20px;
-      padding: 1px;
-      background: linear-gradient(135deg, transparent, transparent);
-      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      opacity: 0;
-      transition: opacity 0.4s, background 0.4s;
-      pointer-events: none;
+      border-radius: 12px;
+      padding: 40px;
+      transition: border-color 0.2s ease;
     }
     .unit-card:hover {
-      transform: translateY(-6px);
-      border-color: transparent;
-      box-shadow: 0 20px 60px -20px rgba(108, 142, 245, 0.4);
+      border-color: var(--accent-soft);
     }
-    .unit-card.u1:hover::before { opacity: 1; background: linear-gradient(135deg, #6c8ef5, transparent 60%); }
-    .unit-card.u2:hover::before { opacity: 1; background: linear-gradient(135deg, #a78bfa, transparent 60%); }
-    .unit-card.u3:hover::before { opacity: 1; background: linear-gradient(135deg, #34d399, transparent 60%); }
-
-    .unit-card::after {
-      content: '';
-      position: absolute;
-      top: 0; right: 0;
-      width: 180px; height: 180px;
-      border-radius: 50%;
-      filter: blur(60px);
-      opacity: 0;
-      transition: opacity 0.5s;
-      pointer-events: none;
-    }
-    .unit-card.u1::after { background: #6c8ef5; }
-    .unit-card.u2::after { background: #a78bfa; }
-    .unit-card.u3::after { background: #34d399; }
-    .unit-card:hover::after { opacity: 0.15; }
 
     .unit-header {
       display: flex;
-      align-items: flex-start;
-      gap: 18px;
-      position: relative;
-      z-index: 1;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
     }
-    .unit-icon {
-      width: 52px;
-      height: 52px;
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      font-size: 1.6rem;
-      flex-shrink: 0;
-      position: relative;
-      transition: transform 0.5s cubic-bezier(.2,.8,.2,1);
-    }
-    .unit-card:hover .unit-icon {
-      transform: rotate(-8deg) scale(1.1);
-    }
-    .u1 .unit-icon { background: rgba(108,142,245,.15); box-shadow: inset 0 0 0 1px rgba(108,142,245,.25); }
-    .u2 .unit-icon { background: rgba(167,139,250,.15); box-shadow: inset 0 0 0 1px rgba(167,139,250,.25); }
-    .u3 .unit-icon { background: rgba(52,211,153,.15); box-shadow: inset 0 0 0 1px rgba(52,211,153,.25); }
-
     .unit-num {
-      font-size: .7rem;
-      font-weight: 700;
+      font-size: .72rem;
+      font-weight: 500;
       letter-spacing: .14em;
       text-transform: uppercase;
+      color: var(--muted);
       font-family: 'JetBrains Mono', monospace;
     }
-    .u1 .unit-num { color: var(--accent1); }
-    .u2 .unit-num { color: var(--accent2); }
-    .u3 .unit-num { color: var(--accent3); }
-
     .unit-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      line-height: 1.3;
-      margin-top: 4px;
-      letter-spacing: -.01em;
+      font-size: 1.4rem;
+      font-weight: 600;
+      line-height: 1.25;
+      letter-spacing: -.015em;
+      color: var(--text);
     }
 
     .topics {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      position: relative;
-      z-index: 1;
+      gap: 6px;
+      margin-bottom: 32px;
     }
     .topic-tag {
-      background: rgba(108, 142, 245, 0.08);
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      background: var(--tag-bg);
+      border-radius: 6px;
       font-size: .78rem;
-      padding: 5px 11px;
-      color: var(--muted);
-      transition: color 0.2s, border-color 0.2s, background 0.2s;
+      padding: 4px 10px;
+      color: var(--text-soft);
+      font-weight: 400;
     }
-    .topic-tag:hover {
-      color: var(--text);
-      border-color: var(--border-strong);
-      background: rgba(108, 142, 245, 0.15);
+
+    /* ── LINK SECTIONS ── */
+    .links-section {
+      padding-top: 24px;
+      border-top: 1px solid var(--border-soft);
+    }
+    .links-section + .links-section {
+      margin-top: 20px;
     }
 
     .links-title {
       font-size: .7rem;
-      font-weight: 700;
+      font-weight: 500;
       letter-spacing: .14em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 10px;
+      margin-bottom: 14px;
       font-family: 'JetBrains Mono', monospace;
     }
+
     .links-grid {
       display: flex;
       flex-direction: column;
-      gap: 6px;
     }
+
     .file-link {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 10px 14px;
-      border-radius: 10px;
-      background: var(--surface2);
-      border: 1px solid var(--border);
+      gap: 14px;
+      padding: 10px 0;
       text-decoration: none;
       color: var(--text);
-      font-size: .88rem;
-      transition: all 0.25s cubic-bezier(.2,.8,.2,1);
-      position: relative;
-      overflow: hidden;
+      font-size: .92rem;
+      border-bottom: 1px solid var(--border-soft);
+      transition: color 0.15s ease;
     }
-    .file-link::before {
-      content: '';
-      position: absolute;
-      left: -100%;
-      top: 0; bottom: 0;
-      width: 60%;
-      background: linear-gradient(90deg, transparent, rgba(108,142,245,0.1), transparent);
-      transition: left 0.6s ease;
-    }
-    .file-link:hover::before { left: 120%; }
-    .file-link:hover {
-      background: rgba(108, 142, 245, 0.1);
-      border-color: var(--border-strong);
-      transform: translateX(4px);
-    }
-    .file-link .icon {
-      font-size: 1.05rem;
-      flex-shrink: 0;
-      transition: transform 0.3s;
-    }
-    .file-link:hover .icon { transform: scale(1.2) rotate(-5deg); }
-    .file-link .label { flex: 1; line-height: 1.2; }
-    .file-link .ext {
-      font-size: .68rem;
-      font-weight: 700;
-      letter-spacing: .08em;
-      padding: 3px 8px;
-      border-radius: 5px;
-      text-transform: uppercase;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .ext-py  { background: rgba(108,142,245,.15); color: var(--accent1); }
-    .ext-md  { background: rgba(167,139,250,.15); color: var(--accent2); }
+    .file-link:last-child { border-bottom: none; }
+    .file-link:hover { color: var(--muted); }
+    .file-link:hover .label { text-decoration: underline; text-underline-offset: 3px; }
 
-    /* ── EXAMS ── */
-    .exams-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 14px;
-    }
-    .exam-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      transition: all 0.3s cubic-bezier(.2,.8,.2,1);
-      backdrop-filter: blur(16px);
-      opacity: 0;
-      transform: translateY(30px);
-      position: relative;
-      overflow: hidden;
-    }
-    .exam-card.in-view {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .exam-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 4px; height: 0;
-      background: linear-gradient(180deg, var(--accent2), var(--accent4));
-      transition: height 0.4s ease;
-    }
-    .exam-card:hover::before { height: 100%; }
-    .exam-card:hover {
-      border-color: var(--border-strong);
-      transform: translateY(-4px);
-      box-shadow: 0 10px 30px -10px rgba(167, 139, 250, 0.3);
-    }
-    .exam-num {
-      font-size: .68rem;
-      font-weight: 700;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--accent2);
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .exam-name {
-      font-size: .98rem;
-      font-weight: 600;
+    .file-link .label {
+      flex: 1;
       line-height: 1.3;
     }
-    .exam-links {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .exam-link {
-      text-decoration: none;
-      padding: 5px 12px;
-      border-radius: 7px;
-      font-size: .75rem;
-      font-weight: 600;
-      transition: all 0.2s;
+    .file-link .ext {
+      font-size: .7rem;
+      font-weight: 500;
+      letter-spacing: .06em;
+      color: var(--muted);
       font-family: 'JetBrains Mono', monospace;
+      text-transform: uppercase;
     }
-    .exam-link:hover { transform: scale(1.05); }
-    .exam-link.md  { background: rgba(167,139,250,.15); color: var(--accent2); border: 1px solid rgba(167,139,250,.3); }
-    .exam-link.py  { background: rgba(108,142,245,.15); color: var(--accent1); border: 1px solid rgba(108,142,245,.3); }
-    .exam-link.md:hover { background: rgba(167,139,250,.25); }
-    .exam-link.py:hover { background: rgba(108,142,245,.25); }
+    .file-link .arrow {
+      color: var(--muted);
+      font-size: .85rem;
+      transition: transform 0.2s ease;
+    }
+    .file-link:hover .arrow {
+      transform: translateX(3px);
+    }
 
     /* ── FOOTER ── */
     footer {
-      text-align: center;
-      padding: 48px 24px;
+      padding: 48px 32px 64px;
       border-top: 1px solid var(--border);
+    }
+    footer .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       color: var(--muted);
       font-size: .85rem;
-      position: relative;
-      backdrop-filter: blur(10px);
+      flex-wrap: wrap;
+      gap: 12px;
     }
     footer a {
-      color: var(--accent1);
+      color: var(--text);
       text-decoration: none;
-      transition: color 0.2s;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1px;
+      transition: border-color 0.2s;
     }
-    footer a:hover { color: var(--accent2); }
-    .footer-logo {
+    footer a:hover { border-color: var(--text); }
+
+    .footer-mark {
       font-family: 'JetBrains Mono', monospace;
-      font-size: .8rem;
-      letter-spacing: .15em;
+      font-size: .78rem;
+      letter-spacing: .1em;
       text-transform: uppercase;
-      background: linear-gradient(135deg, var(--accent1), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 10px;
-      font-weight: 700;
+      color: var(--text-soft);
     }
 
     @media (max-width: 640px) {
-      header { padding: 80px 20px 60px; }
-      .hero-stats { gap: 28px; }
-      .unit-card { padding: 24px; }
+      header { padding: 80px 24px 56px; }
+      main { padding: 0 24px 80px; }
+      .unit-card { padding: 28px 24px; }
+      .container { padding: 0 24px; }
+    }
+
+    /* Subtle fade in */
+    .unit-card {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    .unit-card.in-view {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.2s ease;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -579,385 +267,187 @@
         animation-duration: 0.01ms !important;
         transition-duration: 0.01ms !important;
       }
+      .unit-card { opacity: 1; transform: none; }
     }
   </style>
 </head>
 <body>
 
-<!-- Animated background -->
-<div class="bg-layer">
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
-  <div class="blob blob-4"></div>
-</div>
-<div class="grid-overlay"></div>
-<canvas id="particles"></canvas>
-
 <header>
-  <div class="badge">Programación · 4to año</div>
-  <h1>Material del Curso<br>2026</h1>
-  <p class="tagline">Teoría, ejercicios y modelos de examen — organizados por unidad, pensados para estudiar y repasar.</p>
-
-  <div class="hero-stats">
-    <div class="stat">
-      <div class="stat-num" data-target="3">0</div>
-      <div class="stat-label">Unidades</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num" data-target="8">0</div>
-      <div class="stat-label">Modelos</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num" data-target="25">0</div>
-      <div class="stat-label">+Recursos</div>
-    </div>
+  <div class="container">
+    <div class="eyebrow">Programación · 4to año · 2026</div>
+    <h1>Material del curso.</h1>
+    <p class="tagline">Teoría, práctica y resoluciones organizadas por unidad.</p>
   </div>
-
-  <div class="scroll-hint">Scroll</div>
 </header>
 
 <main>
-  <div class="section-header">
-    <span class="section-label">// Unidades</span>
-    <div class="line"></div>
-  </div>
+  <div class="container">
+    <div class="section-label">Unidades</div>
 
-  <div class="units">
+    <div class="units">
 
-    <!-- U1 -->
-    <div class="unit-card u1" data-tilt>
-      <div class="unit-header">
-        <div class="unit-icon">🧮</div>
-        <div>
-          <div class="unit-num">Unidad 1</div>
-          <div class="unit-title">Matrices, Archivos y Manejo de Errores</div>
+      <!-- U1 -->
+      <article class="unit-card">
+        <div class="unit-header">
+          <span class="unit-num">01</span>
+          <h2 class="unit-title">Matrices, Archivos y Manejo de Errores</h2>
         </div>
-      </div>
 
-      <div class="topics">
-        <span class="topic-tag">Matrices (listas de listas)</span>
-        <span class="topic-tag">Lectura y escritura de archivos</span>
-        <span class="topic-tag">Modos de apertura</span>
-        <span class="topic-tag">readline / readlines / seek</span>
-        <span class="topic-tag">try / except / finally</span>
-        <span class="topic-tag">raise</span>
-        <span class="topic-tag">Excepciones comunes</span>
-      </div>
-
-      <div>
-        <div class="links-title">// Archivos</div>
-        <div class="links-grid">
-          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/Teoria.md" target="_blank">
-            <span class="icon">📖</span><span class="label">Teoría completa</span><span class="ext ext-md">MD</span>
-          </a>
-          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/EjerciciosMatrices.py" target="_blank">
-            <span class="icon">💻</span><span class="label">Ejercicios de Matrices</span><span class="ext ext-py">PY</span>
-          </a>
-          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/EjerciciosArchivos.py" target="_blank">
-            <span class="icon">💻</span><span class="label">Ejercicios de Archivos</span><span class="ext ext-py">PY</span>
-          </a>
-          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/EjerciciosErrores.md" target="_blank">
-            <span class="icon">📄</span><span class="label">Ejercicios de Errores</span><span class="ext ext-md">MD</span>
-          </a>
-          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/EjerciciosErrores.py" target="_blank">
-            <span class="icon">💻</span><span class="label">Soluciones de Errores</span><span class="ext ext-py">PY</span>
-          </a>
-          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/EjercicioIntegrador.md" target="_blank">
-            <span class="icon">🧩</span><span class="label">Ejercicio Integrador</span><span class="ext ext-md">MD</span>
-          </a>
-          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/Ejercicio6.py" target="_blank">
-            <span class="icon">💻</span><span class="label">Ejercicio 6</span><span class="ext ext-py">PY</span>
-          </a>
-          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/Ejercicio7.py" target="_blank">
-            <span class="icon">💻</span><span class="label">Ejercicio 7</span><span class="ext ext-py">PY</span>
-          </a>
+        <div class="topics">
+          <span class="topic-tag">Matrices</span>
+          <span class="topic-tag">Archivos</span>
+          <span class="topic-tag">Modos de apertura</span>
+          <span class="topic-tag">readline / readlines / seek</span>
+          <span class="topic-tag">try / except / finally</span>
+          <span class="topic-tag">raise</span>
         </div>
-      </div>
-    </div>
 
-    <!-- U2 -->
-    <div class="unit-card u2" data-tilt>
-      <div class="unit-header">
-        <div class="unit-icon">🧱</div>
-        <div>
-          <div class="unit-num">Unidad 2</div>
-          <div class="unit-title">Objetos, Principios de la POO y Herencia</div>
+        <div class="links-section">
+          <div class="links-title">Teoría</div>
+          <div class="links-grid">
+            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/Teoria.md" target="_blank">
+              <span class="label">Teoría completa</span><span class="ext">MD</span><span class="arrow">→</span>
+            </a>
+          </div>
         </div>
-      </div>
 
-      <div class="topics">
-        <span class="topic-tag">Clases y objetos</span>
-        <span class="topic-tag">Atributos y métodos</span>
-        <span class="topic-tag">Constructor __init__</span>
-        <span class="topic-tag">self</span>
-        <span class="topic-tag">Encapsulamiento</span>
-        <span class="topic-tag">Herencia y super()</span>
-        <span class="topic-tag">Polimorfismo / Override</span>
-        <span class="topic-tag">Composición</span>
-        <span class="topic-tag">Abstracción</span>
-      </div>
-
-      <div>
-        <div class="links-title">// Archivos</div>
-        <div class="links-grid">
-          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/Teoria.md" target="_blank">
-            <span class="icon">📖</span><span class="label">Teoría completa</span><span class="ext ext-md">MD</span>
-          </a>
-          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/EjerciciosObjetos.md" target="_blank">
-            <span class="icon">📄</span><span class="label">Ejercicios de Objetos</span><span class="ext ext-md">MD</span>
-          </a>
-          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/EjemplosClase.py" target="_blank">
-            <span class="icon">💻</span><span class="label">Ejemplos de clase</span><span class="ext ext-py">PY</span>
-          </a>
-          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/ej12_banco_SOLUCION.py" target="_blank">
-            <span class="icon">🏦</span><span class="label">Ejercicio 12 — Banco (solución)</span><span class="ext ext-py">PY</span>
-          </a>
-          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/ModelosExamen.md" target="_blank">
-            <span class="icon">📝</span><span class="label">Modelos de examen (todos)</span><span class="ext ext-md">MD</span>
-          </a>
+        <div class="links-section">
+          <div class="links-title">Práctica</div>
+          <div class="links-grid">
+            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/EjerciciosErrores.md" target="_blank">
+              <span class="label">Ejercicios de Errores</span><span class="ext">MD</span><span class="arrow">→</span>
+            </a>
+            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/EjercicioIntegrador.md" target="_blank">
+              <span class="label">Ejercicio Integrador</span><span class="ext">MD</span><span class="arrow">→</span>
+            </a>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <!-- U3 -->
-    <div class="unit-card u3" data-tilt>
-      <div class="unit-header">
-        <div class="unit-icon">🗄️</div>
-        <div>
-          <div class="unit-num">Unidad 3</div>
-          <div class="unit-title">Bases de Datos, SQL, Models y Schemas</div>
+        <div class="links-section">
+          <div class="links-title">Resoluciones</div>
+          <div class="links-grid">
+            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/EjerciciosMatrices.py" target="_blank">
+              <span class="label">Ejercicios de Matrices</span><span class="ext">PY</span><span class="arrow">→</span>
+            </a>
+            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/EjerciciosArchivos.py" target="_blank">
+              <span class="label">Ejercicios de Archivos</span><span class="ext">PY</span><span class="arrow">→</span>
+            </a>
+            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/EjerciciosErrores.py" target="_blank">
+              <span class="label">Soluciones de Errores</span><span class="ext">PY</span><span class="arrow">→</span>
+            </a>
+            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/Ejercicio6.py" target="_blank">
+              <span class="label">Ejercicio 6</span><span class="ext">PY</span><span class="arrow">→</span>
+            </a>
+            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/Ejercicio7.py" target="_blank">
+              <span class="label">Ejercicio 7</span><span class="ext">PY</span><span class="arrow">→</span>
+            </a>
+          </div>
         </div>
-      </div>
+      </article>
 
-      <div class="topics">
-        <span class="topic-tag">Bases relacionales</span>
-        <span class="topic-tag">Primary / Foreign Key</span>
-        <span class="topic-tag">SQL · CRUD</span>
-        <span class="topic-tag">CREATE / INSERT / SELECT</span>
-        <span class="topic-tag">UPDATE / DELETE</span>
-        <span class="topic-tag">WHERE / JOIN</span>
-        <span class="topic-tag">GROUP BY / HAVING</span>
-        <span class="topic-tag">Schemas y constraints</span>
-        <span class="topic-tag">sqlite3</span>
-        <span class="topic-tag">ORM · SQLAlchemy</span>
-      </div>
-
-      <div>
-        <div class="links-title">// Archivos</div>
-        <div class="links-grid">
-          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U3%3A%20Bases%20de%20datos%2C%20SQL%2C%20Model%20y%20Schemas/Teoria.md" target="_blank">
-            <span class="icon">📖</span><span class="label">Teoría completa</span><span class="ext ext-md">MD</span>
-          </a>
+      <!-- U2 -->
+      <article class="unit-card">
+        <div class="unit-header">
+          <span class="unit-num">02</span>
+          <h2 class="unit-title">Objetos, Principios de la POO y Herencia</h2>
         </div>
-      </div>
+
+        <div class="topics">
+          <span class="topic-tag">Clases y objetos</span>
+          <span class="topic-tag">__init__ / self</span>
+          <span class="topic-tag">Encapsulamiento</span>
+          <span class="topic-tag">Herencia</span>
+          <span class="topic-tag">super()</span>
+          <span class="topic-tag">Polimorfismo</span>
+          <span class="topic-tag">Composición</span>
+          <span class="topic-tag">Abstracción</span>
+        </div>
+
+        <div class="links-section">
+          <div class="links-title">Teoría</div>
+          <div class="links-grid">
+            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/Teoria.md" target="_blank">
+              <span class="label">Teoría completa</span><span class="ext">MD</span><span class="arrow">→</span>
+            </a>
+            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/EjemplosClase.py" target="_blank">
+              <span class="label">Ejemplos de clase</span><span class="ext">PY</span><span class="arrow">→</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="links-section">
+          <div class="links-title">Práctica</div>
+          <div class="links-grid">
+            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/EjerciciosObjetos.md" target="_blank">
+              <span class="label">Ejercicios de Objetos</span><span class="ext">MD</span><span class="arrow">→</span>
+            </a>
+            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/ModelosExamen.md" target="_blank">
+              <span class="label">Modelos de examen</span><span class="ext">MD</span><span class="arrow">→</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="links-section">
+          <div class="links-title">Resoluciones</div>
+          <div class="links-grid">
+            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/ej12_banco_SOLUCION.py" target="_blank">
+              <span class="label">Ejercicio 12 — Banco</span><span class="ext">PY</span><span class="arrow">→</span>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- U3 -->
+      <article class="unit-card">
+        <div class="unit-header">
+          <span class="unit-num">03</span>
+          <h2 class="unit-title">Bases de Datos, SQL, Models y Schemas</h2>
+        </div>
+
+        <div class="topics">
+          <span class="topic-tag">Bases relacionales</span>
+          <span class="topic-tag">Primary / Foreign Key</span>
+          <span class="topic-tag">SQL · CRUD</span>
+          <span class="topic-tag">WHERE / JOIN</span>
+          <span class="topic-tag">GROUP BY / HAVING</span>
+          <span class="topic-tag">Schemas</span>
+          <span class="topic-tag">sqlite3</span>
+          <span class="topic-tag">SQLAlchemy</span>
+        </div>
+
+        <div class="links-section">
+          <div class="links-title">Teoría</div>
+          <div class="links-grid">
+            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U3%3A%20Bases%20de%20datos%2C%20SQL%2C%20Model%20y%20Schemas/Teoria.md" target="_blank">
+              <span class="label">Teoría completa</span><span class="ext">MD</span><span class="arrow">→</span>
+            </a>
+          </div>
+        </div>
+      </article>
+
     </div>
-
-  </div>
-
-  <!-- EXAMS -->
-  <div class="section-header">
-    <span class="section-label">// Modelos de Examen · U2</span>
-    <div class="line"></div>
-  </div>
-  <div class="exams-grid">
-
-    <div class="exam-card">
-      <div class="exam-num">Modelo 1</div>
-      <div class="exam-name">Biblioteca</div>
-      <div class="exam-links">
-        <a class="exam-link md" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/examenes/modelo1_biblioteca.md" target="_blank">Enunciado</a>
-      </div>
-    </div>
-
-    <div class="exam-card">
-      <div class="exam-num">Modelo 2</div>
-      <div class="exam-name">Gimnasio</div>
-      <div class="exam-links">
-        <a class="exam-link md" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/examenes/modelo2_gimnasio.md" target="_blank">Enunciado</a>
-      </div>
-    </div>
-
-    <div class="exam-card">
-      <div class="exam-num">Modelo 3</div>
-      <div class="exam-name">Sistema de Notas Escolar</div>
-      <div class="exam-links">
-        <a class="exam-link md" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/examenes/modelo3_notas_escolar.md" target="_blank">Enunciado</a>
-      </div>
-    </div>
-
-    <div class="exam-card">
-      <div class="exam-num">Modelo 4</div>
-      <div class="exam-name">Veterinaria</div>
-      <div class="exam-links">
-        <a class="exam-link md" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/examenes/modelo4_veterinaria.md" target="_blank">Enunciado</a>
-      </div>
-    </div>
-
-    <div class="exam-card">
-      <div class="exam-num">Modelo 5</div>
-      <div class="exam-name">Tienda con Empleados</div>
-      <div class="exam-links">
-        <a class="exam-link md" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/examenes/modelo5_tienda_empleados.md" target="_blank">Enunciado</a>
-      </div>
-    </div>
-
-    <div class="exam-card">
-      <div class="exam-num">Modelo 6</div>
-      <div class="exam-name">Clínica</div>
-      <div class="exam-links">
-        <a class="exam-link md" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/examenes/modelo6_clinica.md" target="_blank">Enunciado</a>
-        <a class="exam-link py" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/examenes/modelo6_clinica.py" target="_blank">Solución</a>
-      </div>
-    </div>
-
-    <div class="exam-card">
-      <div class="exam-num">Modelo 7</div>
-      <div class="exam-name">Torneo</div>
-      <div class="exam-links">
-        <a class="exam-link md" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/examenes/modelo7_torneo.md" target="_blank">Enunciado</a>
-        <a class="exam-link py" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/examenes/modelo7_torneo.py" target="_blank">Solución</a>
-      </div>
-    </div>
-
-    <div class="exam-card">
-      <div class="exam-num">Modelo 8</div>
-      <div class="exam-name">Hotel</div>
-      <div class="exam-links">
-        <a class="exam-link md" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/examenes/modelo8_hotel.md" target="_blank">Enunciado</a>
-        <a class="exam-link py" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/examenes/modelo8_hotel.py" target="_blank">Solución</a>
-      </div>
-    </div>
-
   </div>
 </main>
 
 <footer>
-  <div class="footer-logo">&lt;/ Programación 2026 &gt;</div>
-  <p>Programación · 4to año · <a href="https://github.com/Programacion-4to/2026" target="_blank">Ver en GitHub</a></p>
+  <div class="container">
+    <span class="footer-mark">Programación 2026</span>
+    <span>4to año · <a href="https://github.com/Programacion-4to/2026" target="_blank">GitHub</a></span>
+  </div>
 </footer>
 
 <script>
-  // ── Scroll reveal ──
-  const revealEls = document.querySelectorAll('.unit-card, .exam-card');
+  const revealEls = document.querySelectorAll('.unit-card');
   const io = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
       if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('in-view'), i * 60);
+        setTimeout(() => entry.target.classList.add('in-view'), i * 80);
         io.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12 });
+  }, { threshold: 0.1 });
   revealEls.forEach(el => io.observe(el));
-
-  // ── Number counters ──
-  const counters = document.querySelectorAll('.stat-num');
-  const countUp = (el) => {
-    const target = +el.dataset.target;
-    const duration = 1400;
-    const start = performance.now();
-    const tick = (now) => {
-      const p = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = Math.floor(eased * target);
-      if (p < 1) requestAnimationFrame(tick);
-      else el.textContent = target;
-    };
-    requestAnimationFrame(tick);
-  };
-  counters.forEach(c => setTimeout(() => countUp(c), 600));
-
-  // ── Mouse tilt on unit cards ──
-  document.querySelectorAll('[data-tilt]').forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
-      card.style.transform = `translateY(-6px) perspective(1000px) rotateX(${-y * 4}deg) rotateY(${x * 4}deg)`;
-    });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = '';
-    });
-  });
-
-  // ── Particles ──
-  const canvas = document.getElementById('particles');
-  const ctx = canvas.getContext('2d');
-  let W, H, particles = [];
-
-  const resize = () => {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  };
-  resize();
-  window.addEventListener('resize', resize);
-
-  const COLORS = ['#6c8ef5', '#a78bfa', '#34d399', '#f472b6'];
-  const makeParticles = (count) => {
-    particles = [];
-    for (let i = 0; i < count; i++) {
-      particles.push({
-        x: Math.random() * W,
-        y: Math.random() * H,
-        vx: (Math.random() - 0.5) * 0.25,
-        vy: (Math.random() - 0.5) * 0.25,
-        r: Math.random() * 1.6 + 0.4,
-        color: COLORS[Math.floor(Math.random() * COLORS.length)],
-        alpha: Math.random() * 0.5 + 0.2,
-      });
-    }
-  };
-  makeParticles(Math.min(70, Math.floor((W * H) / 22000)));
-
-  let mouseX = -1000, mouseY = -1000;
-  window.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  });
-
-  const animate = () => {
-    ctx.clearRect(0, 0, W, H);
-    particles.forEach(p => {
-      p.x += p.vx;
-      p.y += p.vy;
-      if (p.x < 0) p.x = W; else if (p.x > W) p.x = 0;
-      if (p.y < 0) p.y = H; else if (p.y > H) p.y = 0;
-
-      const dx = p.x - mouseX, dy = p.y - mouseY;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 120) {
-        const force = (120 - dist) / 120;
-        p.x += (dx / dist) * force * 1.5;
-        p.y += (dy / dist) * force * 1.5;
-      }
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = p.color;
-      ctx.globalAlpha = p.alpha;
-      ctx.fill();
-    });
-
-    // Lines between close particles
-    ctx.globalAlpha = 1;
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const a = particles[i], b = particles[j];
-        const dx = a.x - b.x, dy = a.y - b.y;
-        const d = Math.sqrt(dx * dx + dy * dy);
-        if (d < 130) {
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.strokeStyle = `rgba(108, 142, 245, ${(1 - d / 130) * 0.12})`;
-          ctx.lineWidth = 0.6;
-          ctx.stroke();
-        }
-      }
-    }
-    requestAnimationFrame(animate);
-  };
-  animate();
 </script>
 
 </body>
