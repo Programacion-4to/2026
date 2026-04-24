@@ -11,16 +11,19 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #fafaf9;
-      --surface: #ffffff;
-      --border: #e7e5e4;
-      --border-soft: #f0efed;
-      --text: #1c1917;
-      --text-soft: #44403c;
-      --muted: #78716c;
-      --accent: #1c1917;
-      --accent-soft: #57534e;
-      --tag-bg: #f5f5f4;
+      --bg: #0b1410;
+      --bg-soft: #0f1c16;
+      --surface: #122420;
+      --surface-hover: #152b24;
+      --border: #1f3a30;
+      --border-soft: #18302a;
+      --border-strong: #2a5042;
+      --text: #e3ece6;
+      --text-soft: #b8c8bf;
+      --muted: #7a9288;
+      --accent: #5fb28c;
+      --accent-dim: #3e8a6a;
+      --tag-bg: #16302a;
     }
 
     html { scroll-behavior: smooth; }
@@ -34,6 +37,9 @@
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(62, 138, 106, 0.08) 0%, transparent 70%);
+      background-attachment: fixed;
     }
 
     .container {
@@ -46,18 +52,25 @@
     header {
       padding: 120px 32px 80px;
     }
-    header .container {
-      padding: 0;
-    }
+    header .container { padding: 0; }
 
     .eyebrow {
       font-size: .75rem;
       letter-spacing: .14em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--accent);
       font-family: 'JetBrains Mono', monospace;
       margin-bottom: 32px;
       font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .eyebrow::before {
+      content: '';
+      width: 20px;
+      height: 1px;
+      background: var(--accent-dim);
     }
 
     header h1 {
@@ -76,12 +89,6 @@
       line-height: 1.65;
     }
 
-    .divider {
-      height: 1px;
-      background: var(--border);
-      margin: 64px 0 56px;
-    }
-
     /* ── MAIN ── */
     main {
       padding: 0 32px 120px;
@@ -94,58 +101,93 @@
       text-transform: uppercase;
       color: var(--muted);
       font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 40px;
+      margin-bottom: 32px;
     }
 
-    /* ── UNIT CARDS ── */
+    /* ── UNIT CARDS (collapsible) ── */
     .units {
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 16px;
     }
 
     .unit-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 40px;
-      transition: border-color 0.2s ease;
+      overflow: hidden;
+      transition: border-color 0.25s ease;
     }
-    .unit-card:hover {
-      border-color: var(--accent-soft);
-    }
+    .unit-card:hover { border-color: var(--border-strong); }
+    .unit-card[open] { border-color: var(--border-strong); }
 
-    .unit-header {
+    .unit-summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 28px 32px;
       display: flex;
-      align-items: baseline;
-      gap: 16px;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
+      align-items: center;
+      gap: 20px;
+      user-select: none;
+      transition: background 0.2s ease;
     }
+    .unit-summary::-webkit-details-marker { display: none; }
+    .unit-summary:hover { background: var(--surface-hover); }
+
     .unit-num {
       font-size: .72rem;
       font-weight: 500;
       letter-spacing: .14em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--accent);
       font-family: 'JetBrains Mono', monospace;
+      flex-shrink: 0;
+      min-width: 28px;
     }
     .unit-title {
-      font-size: 1.4rem;
+      font-size: 1.15rem;
       font-weight: 600;
-      line-height: 1.25;
-      letter-spacing: -.015em;
+      line-height: 1.3;
+      letter-spacing: -.01em;
       color: var(--text);
+      flex: 1;
+    }
+
+    .chevron {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      color: var(--muted);
+      transition: transform 0.3s cubic-bezier(.2,.8,.2,1), color 0.2s;
+    }
+    .unit-card[open] .chevron {
+      transform: rotate(180deg);
+      color: var(--accent);
+    }
+
+    .unit-body {
+      padding: 8px 32px 32px;
+      border-top: 1px solid var(--border-soft);
+      margin-top: 0;
+    }
+    .unit-card[open] .unit-body {
+      animation: slideDown 0.35s ease-out;
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .topics {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin-bottom: 32px;
+      padding-top: 24px;
+      margin-bottom: 28px;
     }
     .topic-tag {
       background: var(--tag-bg);
+      border: 1px solid var(--border-soft);
       border-radius: 6px;
       font-size: .78rem;
       padding: 4px 10px;
@@ -155,20 +197,18 @@
 
     /* ── LINK SECTIONS ── */
     .links-section {
-      padding-top: 24px;
+      padding-top: 22px;
       border-top: 1px solid var(--border-soft);
     }
-    .links-section + .links-section {
-      margin-top: 20px;
-    }
+    .links-section + .links-section { margin-top: 18px; }
 
     .links-title {
       font-size: .7rem;
       font-weight: 500;
       letter-spacing: .14em;
       text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 14px;
+      color: var(--accent);
+      margin-bottom: 12px;
       font-family: 'JetBrains Mono', monospace;
     }
 
@@ -189,8 +229,7 @@
       transition: color 0.15s ease;
     }
     .file-link:last-child { border-bottom: none; }
-    .file-link:hover { color: var(--muted); }
-    .file-link:hover .label { text-decoration: underline; text-underline-offset: 3px; }
+    .file-link:hover { color: var(--accent); }
 
     .file-link .label {
       flex: 1;
@@ -206,11 +245,12 @@
     }
     .file-link .arrow {
       color: var(--muted);
-      font-size: .85rem;
-      transition: transform 0.2s ease;
+      font-size: .9rem;
+      transition: transform 0.2s ease, color 0.15s;
     }
     .file-link:hover .arrow {
-      transform: translateX(3px);
+      transform: translateX(4px);
+      color: var(--accent);
     }
 
     /* ── FOOTER ── */
@@ -228,38 +268,42 @@
       gap: 12px;
     }
     footer a {
-      color: var(--text);
+      color: var(--text-soft);
       text-decoration: none;
       border-bottom: 1px solid var(--border);
       padding-bottom: 1px;
-      transition: border-color 0.2s;
+      transition: color 0.2s, border-color 0.2s;
     }
-    footer a:hover { border-color: var(--text); }
+    footer a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
 
     .footer-mark {
       font-family: 'JetBrains Mono', monospace;
       font-size: .78rem;
       letter-spacing: .1em;
       text-transform: uppercase;
-      color: var(--text-soft);
+      color: var(--accent);
     }
 
     @media (max-width: 640px) {
       header { padding: 80px 24px 56px; }
       main { padding: 0 24px 80px; }
-      .unit-card { padding: 28px 24px; }
+      .unit-summary { padding: 22px 24px; }
+      .unit-body { padding: 8px 24px 28px; }
       .container { padding: 0 24px; }
+      .unit-title { font-size: 1.05rem; }
     }
 
-    /* Subtle fade in */
     .unit-card {
       opacity: 0;
-      transform: translateY(12px);
+      transform: translateY(10px);
     }
     .unit-card.in-view {
       opacity: 1;
       transform: translateY(0);
-      transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.2s ease;
+      transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.25s ease;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -283,148 +327,160 @@
 
 <main>
   <div class="container">
-    <div class="section-label">Unidades</div>
+    <div class="section-label">— Unidades</div>
 
     <div class="units">
 
       <!-- U1 -->
-      <article class="unit-card">
-        <div class="unit-header">
+      <details class="unit-card">
+        <summary class="unit-summary">
           <span class="unit-num">01</span>
-          <h2 class="unit-title">Matrices, Archivos y Manejo de Errores</h2>
-        </div>
+          <span class="unit-title">Matrices, Archivos y Manejo de Errores</span>
+          <svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="5 8 10 13 15 8"/>
+          </svg>
+        </summary>
+        <div class="unit-body">
+          <div class="topics">
+            <span class="topic-tag">Matrices</span>
+            <span class="topic-tag">Archivos</span>
+            <span class="topic-tag">Modos de apertura</span>
+            <span class="topic-tag">readline / readlines / seek</span>
+            <span class="topic-tag">try / except / finally</span>
+            <span class="topic-tag">raise</span>
+          </div>
 
-        <div class="topics">
-          <span class="topic-tag">Matrices</span>
-          <span class="topic-tag">Archivos</span>
-          <span class="topic-tag">Modos de apertura</span>
-          <span class="topic-tag">readline / readlines / seek</span>
-          <span class="topic-tag">try / except / finally</span>
-          <span class="topic-tag">raise</span>
-        </div>
+          <div class="links-section">
+            <div class="links-title">Teoría</div>
+            <div class="links-grid">
+              <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/Teoria.md" target="_blank">
+                <span class="label">Teoría completa</span><span class="ext">MD</span><span class="arrow">→</span>
+              </a>
+            </div>
+          </div>
 
-        <div class="links-section">
-          <div class="links-title">Teoría</div>
-          <div class="links-grid">
-            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/Teoria.md" target="_blank">
-              <span class="label">Teoría completa</span><span class="ext">MD</span><span class="arrow">→</span>
-            </a>
+          <div class="links-section">
+            <div class="links-title">Práctica</div>
+            <div class="links-grid">
+              <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/EjerciciosErrores.md" target="_blank">
+                <span class="label">Ejercicios de Errores</span><span class="ext">MD</span><span class="arrow">→</span>
+              </a>
+              <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/EjercicioIntegrador.md" target="_blank">
+                <span class="label">Ejercicio Integrador</span><span class="ext">MD</span><span class="arrow">→</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="links-section">
+            <div class="links-title">Resoluciones</div>
+            <div class="links-grid">
+              <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/EjerciciosMatrices.py" target="_blank">
+                <span class="label">Ejercicios de Matrices</span><span class="ext">PY</span><span class="arrow">→</span>
+              </a>
+              <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/EjerciciosArchivos.py" target="_blank">
+                <span class="label">Ejercicios de Archivos</span><span class="ext">PY</span><span class="arrow">→</span>
+              </a>
+              <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/EjerciciosErrores.py" target="_blank">
+                <span class="label">Soluciones de Errores</span><span class="ext">PY</span><span class="arrow">→</span>
+              </a>
+              <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/Ejercicio6.py" target="_blank">
+                <span class="label">Ejercicio 6</span><span class="ext">PY</span><span class="arrow">→</span>
+              </a>
+              <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/Ejercicio7.py" target="_blank">
+                <span class="label">Ejercicio 7</span><span class="ext">PY</span><span class="arrow">→</span>
+              </a>
+            </div>
           </div>
         </div>
-
-        <div class="links-section">
-          <div class="links-title">Práctica</div>
-          <div class="links-grid">
-            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/EjerciciosErrores.md" target="_blank">
-              <span class="label">Ejercicios de Errores</span><span class="ext">MD</span><span class="arrow">→</span>
-            </a>
-            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/EjercicioIntegrador.md" target="_blank">
-              <span class="label">Ejercicio Integrador</span><span class="ext">MD</span><span class="arrow">→</span>
-            </a>
-          </div>
-        </div>
-
-        <div class="links-section">
-          <div class="links-title">Resoluciones</div>
-          <div class="links-grid">
-            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/EjerciciosMatrices.py" target="_blank">
-              <span class="label">Ejercicios de Matrices</span><span class="ext">PY</span><span class="arrow">→</span>
-            </a>
-            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/EjerciciosArchivos.py" target="_blank">
-              <span class="label">Ejercicios de Archivos</span><span class="ext">PY</span><span class="arrow">→</span>
-            </a>
-            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/EjerciciosErrores.py" target="_blank">
-              <span class="label">Soluciones de Errores</span><span class="ext">PY</span><span class="arrow">→</span>
-            </a>
-            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/Ejercicio6.py" target="_blank">
-              <span class="label">Ejercicio 6</span><span class="ext">PY</span><span class="arrow">→</span>
-            </a>
-            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/Ejercicio7.py" target="_blank">
-              <span class="label">Ejercicio 7</span><span class="ext">PY</span><span class="arrow">→</span>
-            </a>
-          </div>
-        </div>
-      </article>
+      </details>
 
       <!-- U2 -->
-      <article class="unit-card">
-        <div class="unit-header">
+      <details class="unit-card">
+        <summary class="unit-summary">
           <span class="unit-num">02</span>
-          <h2 class="unit-title">Objetos, Principios de la POO y Herencia</h2>
-        </div>
+          <span class="unit-title">Objetos, Principios de la POO y Herencia</span>
+          <svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="5 8 10 13 15 8"/>
+          </svg>
+        </summary>
+        <div class="unit-body">
+          <div class="topics">
+            <span class="topic-tag">Clases y objetos</span>
+            <span class="topic-tag">__init__ / self</span>
+            <span class="topic-tag">Encapsulamiento</span>
+            <span class="topic-tag">Herencia</span>
+            <span class="topic-tag">super()</span>
+            <span class="topic-tag">Polimorfismo</span>
+            <span class="topic-tag">Composición</span>
+            <span class="topic-tag">Abstracción</span>
+          </div>
 
-        <div class="topics">
-          <span class="topic-tag">Clases y objetos</span>
-          <span class="topic-tag">__init__ / self</span>
-          <span class="topic-tag">Encapsulamiento</span>
-          <span class="topic-tag">Herencia</span>
-          <span class="topic-tag">super()</span>
-          <span class="topic-tag">Polimorfismo</span>
-          <span class="topic-tag">Composición</span>
-          <span class="topic-tag">Abstracción</span>
-        </div>
+          <div class="links-section">
+            <div class="links-title">Teoría</div>
+            <div class="links-grid">
+              <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/Teoria.md" target="_blank">
+                <span class="label">Teoría completa</span><span class="ext">MD</span><span class="arrow">→</span>
+              </a>
+              <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/EjemplosClase.py" target="_blank">
+                <span class="label">Ejemplos de clase</span><span class="ext">PY</span><span class="arrow">→</span>
+              </a>
+            </div>
+          </div>
 
-        <div class="links-section">
-          <div class="links-title">Teoría</div>
-          <div class="links-grid">
-            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/Teoria.md" target="_blank">
-              <span class="label">Teoría completa</span><span class="ext">MD</span><span class="arrow">→</span>
-            </a>
-            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/EjemplosClase.py" target="_blank">
-              <span class="label">Ejemplos de clase</span><span class="ext">PY</span><span class="arrow">→</span>
-            </a>
+          <div class="links-section">
+            <div class="links-title">Práctica</div>
+            <div class="links-grid">
+              <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/EjerciciosObjetos.md" target="_blank">
+                <span class="label">Ejercicios de Objetos</span><span class="ext">MD</span><span class="arrow">→</span>
+              </a>
+              <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/ModelosExamen.md" target="_blank">
+                <span class="label">Modelos de examen</span><span class="ext">MD</span><span class="arrow">→</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="links-section">
+            <div class="links-title">Resoluciones</div>
+            <div class="links-grid">
+              <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/ej12_banco_SOLUCION.py" target="_blank">
+                <span class="label">Ejercicio 12 — Banco</span><span class="ext">PY</span><span class="arrow">→</span>
+              </a>
+            </div>
           </div>
         </div>
-
-        <div class="links-section">
-          <div class="links-title">Práctica</div>
-          <div class="links-grid">
-            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/EjerciciosObjetos.md" target="_blank">
-              <span class="label">Ejercicios de Objetos</span><span class="ext">MD</span><span class="arrow">→</span>
-            </a>
-            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/ModelosExamen.md" target="_blank">
-              <span class="label">Modelos de examen</span><span class="ext">MD</span><span class="arrow">→</span>
-            </a>
-          </div>
-        </div>
-
-        <div class="links-section">
-          <div class="links-title">Resoluciones</div>
-          <div class="links-grid">
-            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/ej12_banco_SOLUCION.py" target="_blank">
-              <span class="label">Ejercicio 12 — Banco</span><span class="ext">PY</span><span class="arrow">→</span>
-            </a>
-          </div>
-        </div>
-      </article>
+      </details>
 
       <!-- U3 -->
-      <article class="unit-card">
-        <div class="unit-header">
+      <details class="unit-card">
+        <summary class="unit-summary">
           <span class="unit-num">03</span>
-          <h2 class="unit-title">Bases de Datos, SQL, Models y Schemas</h2>
-        </div>
+          <span class="unit-title">Bases de Datos, SQL, Models y Schemas</span>
+          <svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="5 8 10 13 15 8"/>
+          </svg>
+        </summary>
+        <div class="unit-body">
+          <div class="topics">
+            <span class="topic-tag">Bases relacionales</span>
+            <span class="topic-tag">Primary / Foreign Key</span>
+            <span class="topic-tag">SQL · CRUD</span>
+            <span class="topic-tag">WHERE / JOIN</span>
+            <span class="topic-tag">GROUP BY / HAVING</span>
+            <span class="topic-tag">Schemas</span>
+            <span class="topic-tag">sqlite3</span>
+            <span class="topic-tag">SQLAlchemy</span>
+          </div>
 
-        <div class="topics">
-          <span class="topic-tag">Bases relacionales</span>
-          <span class="topic-tag">Primary / Foreign Key</span>
-          <span class="topic-tag">SQL · CRUD</span>
-          <span class="topic-tag">WHERE / JOIN</span>
-          <span class="topic-tag">GROUP BY / HAVING</span>
-          <span class="topic-tag">Schemas</span>
-          <span class="topic-tag">sqlite3</span>
-          <span class="topic-tag">SQLAlchemy</span>
-        </div>
-
-        <div class="links-section">
-          <div class="links-title">Teoría</div>
-          <div class="links-grid">
-            <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U3%3A%20Bases%20de%20datos%2C%20SQL%2C%20Model%20y%20Schemas/Teoria.md" target="_blank">
-              <span class="label">Teoría completa</span><span class="ext">MD</span><span class="arrow">→</span>
-            </a>
+          <div class="links-section">
+            <div class="links-title">Teoría</div>
+            <div class="links-grid">
+              <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U3%3A%20Bases%20de%20datos%2C%20SQL%2C%20Model%20y%20Schemas/Teoria.md" target="_blank">
+                <span class="label">Teoría completa</span><span class="ext">MD</span><span class="arrow">→</span>
+              </a>
+            </div>
           </div>
         </div>
-      </article>
+      </details>
 
     </div>
   </div>
