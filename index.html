@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Programación 2026</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: #2e3350;
+      --accent1: #6c8ef5;
+      --accent2: #a78bfa;
+      --accent3: #34d399;
+      --text: #e2e8f0;
+      --muted: #8892a4;
+      --tag-bg: #1e2540;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(135deg, #0f1117 0%, #1a1d40 60%, #0f1117 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 56px 24px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(108,142,245,.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    header .badge {
+      display: inline-block;
+      background: var(--tag-bg);
+      border: 1px solid var(--accent1);
+      color: var(--accent1);
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 999px;
+      margin-bottom: 20px;
+    }
+    header h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -.02em;
+      line-height: 1.1;
+      background: linear-gradient(120deg, var(--accent1), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    header p {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 52px 24px 80px;
+    }
+
+    .section-label {
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    /* ── UNIT CARDS ── */
+    .units {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 56px;
+    }
+
+    .unit-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: border-color .2s, transform .2s;
+    }
+    .unit-card:hover {
+      border-color: var(--accent1);
+      transform: translateY(-2px);
+    }
+
+    .unit-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .unit-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .u1 .unit-icon { background: rgba(108,142,245,.15); }
+    .u2 .unit-icon { background: rgba(167,139,250,.15); }
+    .u3 .unit-icon { background: rgba(52,211,153,.15); }
+
+    .unit-num {
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .u1 .unit-num { color: var(--accent1); }
+    .u2 .unit-num { color: var(--accent2); }
+    .u3 .unit-num { color: var(--accent3); }
+
+    .unit-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-top: 2px;
+    }
+
+    /* topics */
+    .topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .topic-tag {
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: .78rem;
+      padding: 4px 10px;
+      color: var(--muted);
+    }
+
+    /* links */
+    .links-title {
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .links-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .file-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--text);
+      font-size: .85rem;
+      transition: background .15s, border-color .15s;
+    }
+    .file-link:hover { background: var(--tag-bg); border-color: var(--accent1); }
+    .file-link .icon {
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .file-link .label { flex: 1; line-height: 1.2; }
+    .file-link .ext {
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      padding: 2px 6px;
+      border-radius: 5px;
+      text-transform: uppercase;
+    }
+    .ext-py  { background: rgba(108,142,245,.15); color: var(--accent1); }
+    .ext-md  { background: rgba(167,139,250,.15); color: var(--accent2); }
+
+    /* ── EXAMS SECTION ── */
+    .exams-section {
+      margin-top: 8px;
+    }
+    .exams-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .exam-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: border-color .2s;
+    }
+    .exam-card:hover { border-color: var(--accent2); }
+    .exam-num {
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent2);
+    }
+    .exam-name {
+      font-size: .9rem;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+    .exam-links {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .exam-link {
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: 7px;
+      font-size: .75rem;
+      font-weight: 600;
+      transition: opacity .15s;
+    }
+    .exam-link:hover { opacity: .8; }
+    .exam-link.md  { background: rgba(167,139,250,.15); color: var(--accent2); border: 1px solid rgba(167,139,250,.3); }
+    .exam-link.py  { background: rgba(108,142,245,.15); color: var(--accent1); border: 1px solid rgba(108,142,245,.3); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 28px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: .82rem;
+    }
+    footer a { color: var(--accent1); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="badge">Programación — 4to año</div>
+  <h1>Material del Curso 2026</h1>
+  <p>Teoría, ejercicios y modelos de examen organizados por unidad.</p>
+</header>
+
+<main>
+  <p class="section-label">Unidades</p>
+
+  <div class="units">
+
+    <!-- U1 -->
+    <div class="unit-card u1">
+      <div class="unit-header">
+        <div class="unit-icon">🧮</div>
+        <div>
+          <div class="unit-num">Unidad 1</div>
+          <div class="unit-title">Matrices, Archivos y Manejo de Errores</div>
+        </div>
+      </div>
+
+      <div class="topics">
+        <span class="topic-tag">Matrices (listas de listas)</span>
+        <span class="topic-tag">Lectura y escritura de archivos</span>
+        <span class="topic-tag">Modos de apertura</span>
+        <span class="topic-tag">readline / readlines / seek</span>
+        <span class="topic-tag">try / except / finally</span>
+        <span class="topic-tag">raise</span>
+        <span class="topic-tag">Excepciones comunes</span>
+      </div>
+
+      <div>
+        <div class="links-title">Archivos</div>
+        <div class="links-grid">
+          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/Teoria.md" target="_blank">
+            <span class="icon">📖</span>
+            <span class="label">Teoría completa</span>
+            <span class="ext ext-md">MD</span>
+          </a>
+          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/EjerciciosMatrices.py" target="_blank">
+            <span class="icon">💻</span>
+            <span class="label">Ejercicios de Matrices</span>
+            <span class="ext ext-py">PY</span>
+          </a>
+          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/EjerciciosArchivos.py" target="_blank">
+            <span class="icon">💻</span>
+            <span class="label">Ejercicios de Archivos</span>
+            <span class="ext ext-py">PY</span>
+          </a>
+          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/EjerciciosErrores.md" target="_blank">
+            <span class="icon">📄</span>
+            <span class="label">Ejercicios de Errores</span>
+            <span class="ext ext-md">MD</span>
+          </a>
+          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/EjerciciosErrores.py" target="_blank">
+            <span class="icon">💻</span>
+            <span class="label">Soluciones de Errores</span>
+            <span class="ext ext-py">PY</span>
+          </a>
+          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/EjercicioIntegrador.md" target="_blank">
+            <span class="icon">🧩</span>
+            <span class="label">Ejercicio Integrador</span>
+            <span class="ext ext-md">MD</span>
+          </a>
+          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/Ejercicio6.py" target="_blank">
+            <span class="icon">💻</span>
+            <span class="label">Ejercicio 6</span>
+            <span class="ext ext-py">PY</span>
+          </a>
+          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U1%3A%20Matrices%2C%20Archivos%20y%20Manejo%20de%20Errores/Ejercicio7.py" target="_blank">
+            <span class="icon">💻</span>
+            <span class="label">Ejercicio 7</span>
+            <span class="ext ext-py">PY</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- U2 -->
+    <div class="unit-card u2">
+      <div class="unit-header">
+        <div class="unit-icon">🧱</div>
+        <div>
+          <div class="unit-num">Unidad 2</div>
+          <div class="unit-title">Objetos, Principios de la POO y Herencia</div>
+        </div>
+      </div>
+
+      <div class="topics">
+        <span class="topic-tag">Clases y objetos</span>
+        <span class="topic-tag">Atributos y métodos</span>
+        <span class="topic-tag">Constructor __init__</span>
+        <span class="topic-tag">self</span>
+        <span class="topic-tag">Encapsulamiento</span>
+        <span class="topic-tag">Herencia y super()</span>
+        <span class="topic-tag">Polimorfismo / Override</span>
+        <span class="topic-tag">Composición</span>
+        <span class="topic-tag">Abstracción</span>
+      </div>
+
+      <div>
+        <div class="links-title">Archivos</div>
+        <div class="links-grid">
+          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/Teoria.md" target="_blank">
+            <span class="icon">📖</span>
+            <span class="label">Teoría completa</span>
+            <span class="ext ext-md">MD</span>
+          </a>
+          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/EjerciciosObjetos.md" target="_blank">
+            <span class="icon">📄</span>
+            <span class="label">Ejercicios de Objetos</span>
+            <span class="ext ext-md">MD</span>
+          </a>
+          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/EjemplosClase.py" target="_blank">
+            <span class="icon">💻</span>
+            <span class="label">Ejemplos de clase</span>
+            <span class="ext ext-py">PY</span>
+          </a>
+          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/ej12_banco_SOLUCION.py" target="_blank">
+            <span class="icon">🏦</span>
+            <span class="label">Ejercicio 12 — Banco (solución)</span>
+            <span class="ext ext-py">PY</span>
+          </a>
+          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/ModelosExamen.md" target="_blank">
+            <span class="icon">📝</span>
+            <span class="label">Modelos de examen (todos)</span>
+            <span class="ext ext-md">MD</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- U3 -->
+    <div class="unit-card u3">
+      <div class="unit-header">
+        <div class="unit-icon">🗄️</div>
+        <div>
+          <div class="unit-num">Unidad 3</div>
+          <div class="unit-title">Bases de Datos, SQL, Models y Schemas</div>
+        </div>
+      </div>
+
+      <div class="topics">
+        <span class="topic-tag">Bases de datos relacionales</span>
+        <span class="topic-tag">Primary Key / Foreign Key</span>
+        <span class="topic-tag">SQL — CRUD</span>
+        <span class="topic-tag">CREATE / INSERT / SELECT</span>
+        <span class="topic-tag">UPDATE / DELETE</span>
+        <span class="topic-tag">WHERE / JOIN / GROUP BY</span>
+        <span class="topic-tag">Schemas y constraints</span>
+        <span class="topic-tag">sqlite3 en Python</span>
+        <span class="topic-tag">ORM con SQLAlchemy</span>
+      </div>
+
+      <div>
+        <div class="links-title">Archivos</div>
+        <div class="links-grid">
+          <a class="file-link" href="https://github.com/Programacion-4to/2026/blob/main/U3%3A%20Bases%20de%20datos%2C%20SQL%2C%20Model%20y%20Schemas/Teoria.md" target="_blank">
+            <span class="icon">📖</span>
+            <span class="label">Teoría completa</span>
+            <span class="ext ext-md">MD</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- EXAMS -->
+  <p class="section-label">Modelos de Examen — U2</p>
+  <div class="exams-section">
+    <div class="exams-grid">
+
+      <div class="exam-card">
+        <div class="exam-num">Modelo 1</div>
+        <div class="exam-name">Biblioteca</div>
+        <div class="exam-links">
+          <a class="exam-link md" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/examenes/modelo1_biblioteca.md" target="_blank">Enunciado</a>
+        </div>
+      </div>
+
+      <div class="exam-card">
+        <div class="exam-num">Modelo 2</div>
+        <div class="exam-name">Gimnasio</div>
+        <div class="exam-links">
+          <a class="exam-link md" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/examenes/modelo2_gimnasio.md" target="_blank">Enunciado</a>
+        </div>
+      </div>
+
+      <div class="exam-card">
+        <div class="exam-num">Modelo 3</div>
+        <div class="exam-name">Sistema de Notas Escolar</div>
+        <div class="exam-links">
+          <a class="exam-link md" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/examenes/modelo3_notas_escolar.md" target="_blank">Enunciado</a>
+        </div>
+      </div>
+
+      <div class="exam-card">
+        <div class="exam-num">Modelo 4</div>
+        <div class="exam-name">Veterinaria</div>
+        <div class="exam-links">
+          <a class="exam-link md" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/examenes/modelo4_veterinaria.md" target="_blank">Enunciado</a>
+        </div>
+      </div>
+
+      <div class="exam-card">
+        <div class="exam-num">Modelo 5</div>
+        <div class="exam-name">Tienda con Empleados</div>
+        <div class="exam-links">
+          <a class="exam-link md" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/examenes/modelo5_tienda_empleados.md" target="_blank">Enunciado</a>
+        </div>
+      </div>
+
+      <div class="exam-card">
+        <div class="exam-num">Modelo 6</div>
+        <div class="exam-name">Clínica</div>
+        <div class="exam-links">
+          <a class="exam-link md" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/examenes/modelo6_clinica.md" target="_blank">Enunciado</a>
+          <a class="exam-link py" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/examenes/modelo6_clinica.py" target="_blank">Solución</a>
+        </div>
+      </div>
+
+      <div class="exam-card">
+        <div class="exam-num">Modelo 7</div>
+        <div class="exam-name">Torneo</div>
+        <div class="exam-links">
+          <a class="exam-link md" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/examenes/modelo7_torneo.md" target="_blank">Enunciado</a>
+          <a class="exam-link py" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/examenes/modelo7_torneo.py" target="_blank">Solución</a>
+        </div>
+      </div>
+
+      <div class="exam-card">
+        <div class="exam-num">Modelo 8</div>
+        <div class="exam-name">Hotel</div>
+        <div class="exam-links">
+          <a class="exam-link md" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/examenes/modelo8_hotel.md" target="_blank">Enunciado</a>
+          <a class="exam-link py" href="https://github.com/Programacion-4to/2026/blob/main/U2%3A%20Objetos%2C%20principios%20de%20la%20POO%20y%20Herencia/examenes/modelo8_hotel.py" target="_blank">Solución</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>
+    Programación 4to año · 2026 ·
+    <a href="https://github.com/Programacion-4to/2026" target="_blank">Ver en GitHub</a>
+  </p>
+</footer>
+
+</body>
+</html>

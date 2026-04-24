@@ -77,7 +77,8 @@ class BancoApp(tk.Tk):
         self.banco.emitir_tarjeta_credito(pedro, 30000)
 
         self.usuarios_login = {
-            "cliente": {"password": "1234", "rol": "cliente", "obj": pedro},
+            "cliente1": {"password": "1234", "rol": "cliente", "obj": pedro},
+            "cliente2": {"password": "lu1234", "rol": "cliente", "obj": lucia},
             "admin": {"password": "admin123", "rol": "admin", "obj": self.gerente},
         }
 
