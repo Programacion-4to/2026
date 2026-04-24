@@ -1,17 +1,5 @@
 # Unidad 3 — Bases de Datos, SQL, Models y Schemas
 
-## Objetivos de la Unidad
-
-Al finalizar esta unidad el alumno será capaz de:
-
-* Comprender qué es una **base de datos** y para qué sirve.
-* Escribir consultas **SQL** para crear, leer, modificar y eliminar datos.
-* Entender qué es un **Schema** y cómo define la estructura de los datos.
-* Utilizar **Models** para interactuar con la base de datos desde Python.
-* Aplicar estos conceptos para resolver problemas reales.
-
----
-
 # 1. Bases de Datos
 
 ## ¿Qué es una base de datos?
@@ -124,7 +112,7 @@ CREATE TABLE productos (
 |------|-------------|
 | `INTEGER` | Número entero |
 | `REAL` / `FLOAT` | Número con decimales |
-| `TEXT` / `VARCHAR` | Cadena de texto |
+| `TEXT` / `VARCHAR(n)` | Cadena de texto |
 | `BOOLEAN` | Verdadero o falso |
 | `DATE` | Fecha |
 | `DATETIME` | Fecha y hora |
@@ -257,6 +245,55 @@ SELECT MAX(precio), MIN(precio) FROM productos;
 SELECT categoria, COUNT(*) AS cantidad
 FROM productos
 GROUP BY categoria;
+```
+
+---
+
+## HAVING — Filtrar grupos
+
+`HAVING` se usa para **filtrar resultados después de un `GROUP BY`**.
+
+La diferencia con `WHERE` es clave:
+
+| Cláusula | Cuándo filtra | Sobre qué filtra |
+|----------|---------------|------------------|
+| `WHERE` | **Antes** de agrupar | Filas individuales |
+| `HAVING` | **Después** de agrupar | Grupos (resultado de agregaciones) |
+
+> `WHERE` no puede usar funciones de agregación (`COUNT`, `SUM`, `AVG`...). Para filtrar por esos valores hay que usar `HAVING`.
+
+### Ejemplo
+
+Mostrar solo las categorías que tienen más de 5 productos:
+
+```sql
+SELECT categoria, COUNT(*) AS cantidad
+FROM productos
+GROUP BY categoria
+HAVING COUNT(*) > 5;
+```
+
+### Ejemplo combinando WHERE y HAVING
+
+Categorías cuyos productos con stock mayor a 0 tengan un precio promedio superior a 100:
+
+```sql
+SELECT categoria, AVG(precio) AS promedio
+FROM productos
+WHERE stock > 0
+GROUP BY categoria
+HAVING AVG(precio) > 100;
+```
+
+En este caso:
+1. `WHERE stock > 0` filtra primero los productos con stock.
+2. `GROUP BY categoria` agrupa los productos por categoría.
+3. `HAVING AVG(precio) > 100` filtra los grupos según el promedio calculado.
+
+### Orden de ejecución de una consulta
+
+```
+FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT
 ```
 
 ---
