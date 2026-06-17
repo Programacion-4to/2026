@@ -54,10 +54,68 @@ class Cafetera:
         print("Cafetera limpia!")
 
 
-facu = Persona("Facundo", "22")
-facu.saludar()
-cafetera1 = Cafetera("Negro", "Italiana", "Bialetti")
-facu.comprar_cafetera(cafetera1)
-facu.hacer_cafe("Cafe con leche")
-facu.limpiar_cafetera(cafetera1)
-facu.hacer_cafe("Cortado")
+# facu = Persona("Facundo", "22")
+# facu.saludar()
+# cafetera1 = Cafetera("Negro", "Italiana", "Bialetti")
+# facu.comprar_cafetera(cafetera1)
+# facu.hacer_cafe("Cafe con leche")
+# facu.limpiar_cafetera(cafetera1)
+# facu.hacer_cafe("Cortado")
+
+
+# EJERCICIO 6 de OBJETOS
+
+class Producto:
+    def __init__(self, nombre, precio):
+        self.nombre = nombre
+        self.precio = precio
+
+class Pedido:
+    def __init__(self):
+        self.productos = []
+        # self.total_ = 0
+    
+    def agregar_producto(self, producto):
+        self.productos.append(producto)
+        # self.total_ += producto.precio
+
+    def total(self):
+        # return self.total_
+        total = 0
+        for prod in self.productos:
+            total += prod.precio
+
+        return total
+
+class Cliente:
+    def __init__(self, nombre):
+        self.nombre = nombre
+        self.pedidos = []
+        self.pedido_actual = Pedido()
+
+    def hacer_pedido(self):
+        if self.pedido_actual.productos == []:
+            raise ValueError("Tu pedido esta vacio")
+        self.pedidos.append(self.pedido_actual)
+        self.pedido_actual = Pedido()
+        
+
+    def total_gastado(self):
+        total = 0
+        for ped in self.pedidos:
+            total += ped.total()
+        return total
+
+p1 = Producto("Pan", 100)
+p2 = Producto("Leche", 200)
+
+
+cliente = Cliente("Facundo")
+cliente.pedido_actual.agregar_producto(p1)
+cliente.pedido_actual.agregar_producto(p2)
+cliente.hacer_pedido()
+cliente.pedido_actual.agregar_producto(p2)
+cliente.hacer_pedido()
+
+print(cliente.total_gastado())
+
