@@ -65,57 +65,95 @@ class Cafetera:
 
 # EJERCICIO 6 de OBJETOS
 
-class Producto:
-    def __init__(self, nombre, precio):
-        self.nombre = nombre
-        self.precio = precio
+# class Producto:
+#     def __init__(self, nombre, precio):
+#         self.nombre = nombre
+#         self.precio = precio
 
-class Pedido:
-    def __init__(self):
-        self.productos = []
-        # self.total_ = 0
+# class Pedido:
+#     def __init__(self):
+#         self.productos = []
+#         # self.total_ = 0
     
-    def agregar_producto(self, producto):
-        self.productos.append(producto)
-        # self.total_ += producto.precio
+#     def agregar_producto(self, producto):
+#         self.productos.append(producto)
+#         # self.total_ += producto.precio
 
-    def total(self):
-        # return self.total_
-        total = 0
-        for prod in self.productos:
-            total += prod.precio
+#     def total(self):
+#         # return self.total_
+#         total = 0
+#         for prod in self.productos:
+#             total += prod.precio
 
-        return total
+#         return total
 
-class Cliente:
-    def __init__(self, nombre):
-        self.nombre = nombre
-        self.pedidos = []
-        self.pedido_actual = Pedido()
+# class Cliente:
+#     def __init__(self, nombre):
+#         self.nombre = nombre
+#         self.pedidos = []
+#         self.pedido_actual = Pedido()
 
-    def hacer_pedido(self):
-        if self.pedido_actual.productos == []:
-            raise ValueError("Tu pedido esta vacio")
-        self.pedidos.append(self.pedido_actual)
-        self.pedido_actual = Pedido()
+#     def hacer_pedido(self):
+#         if self.pedido_actual.productos == []:
+#             raise ValueError("Tu pedido esta vacio")
+#         self.pedidos.append(self.pedido_actual)
+#         self.pedido_actual = Pedido()
         
 
-    def total_gastado(self):
-        total = 0
-        for ped in self.pedidos:
-            total += ped.total()
-        return total
+#     def total_gastado(self):
+#         total = 0
+#         for ped in self.pedidos:
+#             total += ped.total()
+#         return total
 
-p1 = Producto("Pan", 100)
-p2 = Producto("Leche", 200)
+# p1 = Producto("Pan", 100)
+# p2 = Producto("Leche", 200)
 
 
-cliente = Cliente("Facundo")
-cliente.pedido_actual.agregar_producto(p1)
-cliente.pedido_actual.agregar_producto(p2)
-cliente.hacer_pedido()
-cliente.pedido_actual.agregar_producto(p2)
-cliente.hacer_pedido()
+# cliente = Cliente("Facundo")
+# cliente.pedido_actual.agregar_producto(p1)
+# cliente.pedido_actual.agregar_producto(p2)
+# cliente.hacer_pedido()
+# cliente.pedido_actual.agregar_producto(p2)
+# cliente.hacer_pedido()
 
-print(cliente.total_gastado())
+# print(cliente.total_gastado())
+
+
+## Ejercicio 5
+
+class Producto:
+    def __init__(self, nombre, precio):
+        self.__nombre = nombre
+        self.__precio = precio
+
+    def get_precio(self) -> int:
+        return self.__precio
+    
+    def get_nombre(self):
+        return self.__nombre
+
+class Carrito:
+    def __init__(self):
+        self.lista_de_productos: list[Producto] = []
+
+    def agregar_producto(self, producto: Producto):
+        self.lista_de_productos.append(producto)
+
+    def total(self) -> int:
+        return sum([prod.get_precio() for prod in self.lista_de_productos])
+
+
+
+p1 = Producto("Pan", 1000)
+p2 = Producto("Huevos", 7000)
+p3 = Producto("Avena", 750)
+
+c1 = Carrito()
+c1.agregar_producto(p1)
+c1.agregar_producto(p2)
+c1.agregar_producto(p3)
+
+print(c1.total())
+
 
