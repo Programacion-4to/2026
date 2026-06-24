@@ -831,3 +831,220 @@ pedro.mostrar_resumen()
 ```
 
 > Ejecutá `ej12_banco_runner.py` para probar tu implementación completa.
+
+---
+
+# Ejercicios complementarios
+
+Los siguientes ejercicios refuerzan los temas agregados a la teoría: encapsulamiento con `@property`, métodos de clase/estáticos, polimorfismo, dunder methods, agregación vs composición y clases abstractas.
+
+## Encapsulamiento y `@property`
+
+### Ejercicio 17 — Temperatura con validación
+
+Crear una clase `Temperatura` que guarde una temperatura en grados Celsius, pero **nunca permita** bajar de -273.15 (cero absoluto).
+
+| Tipo | Descripción |
+|---|---|
+| Atributo privado | `__celsius` |
+| Property | `celsius` → getter y setter. El setter debe lanzar `ValueError` si el valor es menor a -273.15 |
+| Property (solo lectura) | `fahrenheit` → retorna `celsius * 9/5 + 32` |
+| Property (solo lectura) | `kelvin` → retorna `celsius + 273.15` |
+
+**Ejemplo de uso:**
+```python
+t = Temperatura()
+t.celsius = 25
+print(t.fahrenheit)   # 77.0
+print(t.kelvin)       # 298.15
+t.celsius = -300      # ValueError
+```
+
+### Ejercicio 18 — Producto con stock
+
+Crear una clase `Producto` donde el stock no se pueda modificar libremente desde afuera.
+
+| Tipo | Descripción |
+|---|---|
+| Atributos | `nombre`, `precio` |
+| Atributo privado | `__stock` |
+| Property | `stock` → getter (no setter) |
+| Método | `reponer(cantidad)` → suma al stock. Si `cantidad <= 0` lanzar `ValueError` |
+| Método | `vender(cantidad)` → resta del stock. Si no hay suficiente lanzar `ValueError("Stock insuficiente")` |
+
+La idea: forzar al usuario a modificar el stock **solo** a través de `reponer()` y `vender()`, no escribiendo `producto.stock = 100`.
+
+---
+
+## Métodos de clase y estáticos
+
+### Ejercicio 19 — Empleado con contador
+
+Crear una clase `Empleado` que lleve la cuenta de cuántos empleados se crearon.
+
+| Tipo | Descripción |
+|---|---|
+| Atributo de clase | `cantidad_empleados = 0` |
+| Atributos | `nombre`, `legajo`, `sueldo` |
+| `@classmethod` | `total_empleados()` → retorna `cls.cantidad_empleados` |
+| `@classmethod` | `desde_string(texto)` → constructor alternativo. Recibe `"Ana,L001,50000"` y retorna un `Empleado` |
+| `@staticmethod` | `es_sueldo_valido(monto)` → retorna `True` si `monto > 0` |
+
+**Ejemplo de uso:**
+```python
+e1 = Empleado("Ana", "L001", 50000)
+e2 = Empleado.desde_string("Juan,L002,60000")
+print(Empleado.total_empleados())       # 2
+print(Empleado.es_sueldo_valido(-100))  # False
+```
+
+### Ejercicio 20 — Fecha con factory methods
+
+Crear una clase `Fecha` con `dia`, `mes`, `anio` y varios constructores alternativos.
+
+| Tipo | Descripción |
+|---|---|
+| `__init__(dia, mes, anio)` | Constructor normal |
+| `@classmethod` | `desde_string(texto)` → recibe `"24/06/2026"` y retorna una `Fecha` |
+| `@classmethod` | `hoy()` → retorna la fecha actual (usar `datetime.date.today()`) |
+| `@staticmethod` | `es_bisiesto(anio)` → retorna `True` si el año es bisiesto |
+
+---
+
+## Polimorfismo
+
+### Ejercicio 21 — Figuras geométricas
+
+Crear una jerarquía de figuras donde todas tengan el método `area()` pero cada una lo calcule distinto.
+
+| Clase | Atributos | `area()` |
+|---|---|---|
+| `Figura` (base) | — | retorna `0` |
+| `Circulo` | `radio` | `π * radio²` |
+| `Rectangulo` | `base`, `altura` | `base * altura` |
+| `Triangulo` | `base`, `altura` | `base * altura / 2` |
+
+Luego crear una función **fuera** de las clases:
+
+```python
+def area_total(figuras):
+    # recibe una lista de figuras y retorna la suma de sus áreas
+    ...
+```
+
+La gracia del polimorfismo: `area_total()` no necesita saber qué tipo de figura es cada una, solo llama a `.area()`.
+
+### Ejercicio 22 — Medios de pago
+
+Crear una jerarquía de medios de pago:
+
+| Clase | Método `pagar(monto)` |
+|---|---|
+| `MedioDePago` (base) | imprime `"Pago genérico de $X"` |
+| `Efectivo` | imprime `"Pagado $X en efectivo"` |
+| `TarjetaCredito` | imprime `"Pagado $X con tarjeta (en cuotas)"` |
+| `Transferencia` | imprime `"Transferido $X por CBU"` |
+
+Crear una clase `Caja` con un método `procesar_pagos(lista_pagos, monto)` que reciba una lista de medios de pago y llame a `pagar(monto)` en cada uno, sin preguntar de qué tipo es.
+
+---
+
+## Dunder methods (sobrecarga de operadores)
+
+### Ejercicio 23 — Vector 2D
+
+Crear una clase `Vector2D` que represente un vector en el plano y soporte operaciones como números:
+
+| Método | Comportamiento |
+|---|---|
+| `__init__(x, y)` | Inicializa coordenadas |
+| `__str__()` | Retorna `"(3, 4)"` |
+| `__repr__()` | Retorna `"Vector2D(3, 4)"` |
+| `__add__(otro)` | Retorna un nuevo `Vector2D` con la suma coordenada a coordenada |
+| `__sub__(otro)` | Igual pero restando |
+| `__eq__(otro)` | `True` si ambas coordenadas coinciden |
+| `__abs__()` | Retorna el módulo (`sqrt(x² + y²)`) |
+
+**Ejemplo:**
+```python
+v1 = Vector2D(3, 4)
+v2 = Vector2D(1, 2)
+print(v1 + v2)   # (4, 6)
+print(abs(v1))   # 5.0
+print(v1 == Vector2D(3, 4))  # True
+```
+
+### Ejercicio 24 — Carrito comparable
+
+Reescribir el `Carrito` del ejercicio 5 para que soporte:
+
+| Método | Comportamiento |
+|---|---|
+| `__len__()` | Retorna la cantidad de productos en el carrito |
+| `__str__()` | Retorna `"Carrito con N productos. Total: $X"` |
+| `__add__(otro)` | Retorna un nuevo `Carrito` que combina los productos de ambos |
+| `__contains__(producto)` | Permite hacer `producto in carrito` |
+
+---
+
+## Agregación vs Composición
+
+### Ejercicio 25 — Universidad (agregación)
+
+Modelar una universidad donde:
+
+- Si se cierra la universidad, los estudiantes **siguen existiendo** como personas (agregación).
+
+| Clase | Atributos | Métodos |
+|---|---|---|
+| `Estudiante` | `nombre`, `dni` | — |
+| `Universidad` | `nombre`, `estudiantes` (lista) | `inscribir(estudiante)`, `desinscribir(estudiante)` |
+
+Los `Estudiante` se crean **afuera** y se pasan a `inscribir()`.
+
+### Ejercicio 26 — Computadora (composición)
+
+Modelar una computadora donde los componentes **mueren con ella** (composición).
+
+| Clase | Atributos | Métodos |
+|---|---|---|
+| `CPU` | `modelo`, `ghz` | `procesar()` |
+| `RAM` | `gb` | — |
+| `Disco` | `gb`, `tipo` ("SSD"/"HDD") | — |
+| `Computadora` | crea internamente su `CPU`, `RAM` y `Disco` en `__init__` | `info()` → imprime los specs |
+
+La `Computadora` **no recibe** los componentes desde afuera: los construye ella misma en el constructor.
+
+---
+
+## Clases abstractas
+
+### Ejercicio 27 — Empleados con sueldo distinto
+
+Crear una clase abstracta `Empleado` y dos subclases que calculen el sueldo de forma diferente.
+
+| Clase | Tipo | Atributos | Método |
+|---|---|---|---|
+| `Empleado` | abstracta | `nombre` | `@abstractmethod calcular_sueldo()` |
+| `EmpleadoMensual` | concreta | `nombre`, `sueldo_base` | `calcular_sueldo()` → retorna `sueldo_base` |
+| `EmpleadoPorHora` | concreta | `nombre`, `valor_hora`, `horas` | `calcular_sueldo()` → retorna `valor_hora * horas` |
+
+Verificar:
+```python
+Empleado("Test")           # TypeError: no se puede instanciar
+EmpleadoMensual("Ana", 80000).calcular_sueldo()        # 80000
+EmpleadoPorHora("Juan", 2000, 40).calcular_sueldo()    # 80000
+```
+
+### Ejercicio 28 — Notificadores
+
+Crear una clase abstracta `Notificador` que represente cualquier medio para enviar avisos.
+
+| Clase | Tipo | Método |
+|---|---|---|
+| `Notificador` | abstracta | `@abstractmethod enviar(mensaje, destinatario)` |
+| `NotificadorEmail` | concreta | `enviar()` → imprime `"[EMAIL a juan@mail.com] Hola"` |
+| `NotificadorSMS` | concreta | `enviar()` → imprime `"[SMS a +54911...] Hola"` |
+| `NotificadorPush` | concreta | `enviar()` → imprime `"[PUSH a juan_user] Hola"` |
+
+Crear una clase `Sistema` con un método `avisar_a_todos(notificadores, mensaje, destinatario)` que reciba una lista de notificadores y dispare el mensaje en cada uno. **No** debe usar `isinstance` ni `if` por tipo: el polimorfismo se encarga.
