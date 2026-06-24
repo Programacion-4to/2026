@@ -360,7 +360,297 @@ Crear: `Clase Empleado`
 | Metodo | agregar_empleado(emp) → agrega un empleado a la lista |
 | Metodo | total_sueldos() → suma de sueldos de todos los empleados 
 
-## Ejercicio 15 — Sistema completo (MercadoLibre)
+## Ejercicio 15 — Sistema de Streaming (6 clases)
+
+Crear un sistema tipo Netflix con contenidos y usuarios.
+
+### Clase `Contenido` *(base)*
+
+| Atributo | Descripción |
+|---|---|
+| `titulo` | Título del contenido |
+| `duracion` | Duración total en minutos |
+| `reproducciones` | Int, arranca en `0` |
+
+| Método | Descripción |
+|---|---|
+| `reproducir()` | Incrementa `reproducciones` e imprime `"Reproduciendo <titulo>"` |
+
+---
+
+### Clase `Pelicula` *(hereda de `Contenido`)*
+
+| Atributo | Descripción |
+|---|---|
+| `genero` | Género (acción, drama, etc.) |
+
+---
+
+### Clase `Serie` *(hereda de `Contenido`)*
+
+| Atributo | Descripción |
+|---|---|
+| `temporadas` | Cantidad de temporadas |
+| `episodios` | Cantidad total de episodios |
+
+---
+
+### Clase `Usuario` *(base)*
+
+| Atributo | Descripción |
+|---|---|
+| `nombre` | Nombre del usuario |
+| `email` | Correo electrónico |
+| `_contrasena` | Contraseña *(protegida)* |
+
+| Método | Descripción |
+|---|---|
+| `verificar_contrasena(contrasena)` | Retorna `True/False` si coincide |
+
+---
+
+### Clase `Suscriptor` *(hereda de `Usuario`)*
+
+| Atributo | Descripción |
+|---|---|
+| `plan` | `"basico"`, `"premium"` |
+| `historial` | Lista de `Contenido` reproducidos |
+
+| Método | Descripción |
+|---|---|
+| `ver(contenido)` | Llama a `contenido.reproducir()` y lo agrega al historial |
+| `mostrar_historial()` | Imprime el historial |
+
+---
+
+### Clase `Plataforma`
+
+| Atributo | Descripción |
+|---|---|
+| `nombre` | Nombre de la plataforma |
+| `catalogo` | Lista de `Contenido` |
+| `usuarios` | Lista de `Usuario` |
+
+| Método | Descripción |
+|---|---|
+| `agregar_contenido(c)` | Agrega al catálogo |
+| `registrar_usuario(u)` | Agrega a la lista de usuarios |
+| `mostrar_catalogo()` | Imprime todos los contenidos diferenciando películas y series |
+
+---
+
+## Ejercicio 16 — Sistema de Gimnasio (5 clases)
+
+### Clase `Persona` *(base)*
+
+| Atributo | Descripción |
+|---|---|
+| `nombre` | Nombre |
+| `dni` | DNI |
+
+| Método | Descripción |
+|---|---|
+| `mostrar_datos()` | Imprime nombre y DNI |
+
+---
+
+### Clase `Socio` *(hereda de `Persona`)*
+
+| Atributo | Descripción |
+|---|---|
+| `plan` | `"mensual"` / `"trimestral"` / `"anual"` |
+| `asistencias` | Int, arranca en `0` |
+
+| Método | Descripción |
+|---|---|
+| `registrar_asistencia()` | Incrementa `asistencias` |
+
+---
+
+### Clase `Entrenador` *(hereda de `Persona`)*
+
+| Atributo | Descripción |
+|---|---|
+| `especialidad` | `"yoga"`, `"spinning"`, `"musculación"`, etc. |
+
+---
+
+### Clase `ClaseGym`
+
+| Atributo | Descripción |
+|---|---|
+| `nombre` | Nombre de la clase |
+| `horario` | String (`"18:00"`) |
+| `entrenador` | Objeto `Entrenador` que la dicta |
+| `inscriptos` | Lista de `Socio` |
+| `cupo_maximo` | Int |
+
+| Método | Descripción |
+|---|---|
+| `inscribir(socio)` | Si hay cupo, agrega al socio; si no, imprime que está llena |
+| `cantidad_inscriptos()` | Retorna `len(inscriptos)` |
+
+---
+
+### Clase `Gimnasio`
+
+| Atributo | Descripción |
+|---|---|
+| `nombre` | Nombre del gimnasio |
+| `socios` | Lista de `Socio` |
+| `entrenadores` | Lista de `Entrenador` |
+| `clases` | Lista de `ClaseGym` |
+
+| Método | Descripción |
+|---|---|
+| `registrar_socio(s)` | Agrega a la lista de socios |
+| `contratar_entrenador(e)` | Agrega a la lista de entrenadores |
+| `programar_clase(c)` | Agrega a la lista de clases |
+| `mostrar_clases()` | Imprime cada clase con su entrenador y cantidad de inscriptos |
+
+---
+
+## Ejercicio 17 — Sistema de Aerolínea (5 clases)
+
+### Clase `Persona` *(base)*
+
+| Atributo | Descripción |
+|---|---|
+| `nombre` | Nombre |
+| `dni` | DNI |
+
+---
+
+### Clase `Pasajero` *(hereda de `Persona`)*
+
+| Atributo | Descripción |
+|---|---|
+| `vuelos_reservados` | Lista de `Vuelo` |
+
+| Método | Descripción |
+|---|---|
+| `reservar(vuelo)` | Llama a `vuelo.agregar_pasajero(self)` y lo agrega a la lista |
+
+---
+
+### Clase `Tripulante` *(hereda de `Persona`)*
+
+| Atributo | Descripción |
+|---|---|
+| `rol` | `"piloto"`, `"copiloto"`, `"azafata"` |
+| `vuelos_asignados` | Lista de `Vuelo` |
+
+---
+
+### Clase `Vuelo`
+
+| Atributo | Descripción |
+|---|---|
+| `numero` | Ej. `"AR1234"` |
+| `origen` | Ciudad de origen |
+| `destino` | Ciudad de destino |
+| `capacidad` | Capacidad máxima de pasajeros |
+| `pasajeros` | Lista de `Pasajero` |
+| `tripulacion` | Lista de `Tripulante` |
+
+| Método | Descripción |
+|---|---|
+| `agregar_pasajero(p)` | Si hay lugar lo agrega; si no, imprime vuelo completo |
+| `asignar_tripulante(t)` | Agrega a la tripulación |
+| `lugares_disponibles()` | Retorna `capacidad - len(pasajeros)` |
+
+---
+
+### Clase `Aerolinea`
+
+| Atributo | Descripción |
+|---|---|
+| `nombre` | Nombre de la aerolínea |
+| `vuelos` | Lista de `Vuelo` |
+| `pasajeros_registrados` | Lista de `Pasajero` |
+| `tripulantes` | Lista de `Tripulante` |
+
+| Método | Descripción |
+|---|---|
+| `programar_vuelo(v)` | Agrega a la lista de vuelos |
+| `registrar_pasajero(p)` | Agrega a la lista de pasajeros |
+| `contratar_tripulante(t)` | Agrega a la lista de tripulantes |
+| `buscar_vuelo(numero)` | Retorna el vuelo con ese número o `None` |
+
+---
+
+## Ejercicio 18 — Sistema de Colegio (5 clases)
+
+### Clase `Persona` *(base)*
+
+| Atributo | Descripción |
+|---|---|
+| `nombre` | Nombre |
+| `edad` | Edad |
+
+---
+
+### Clase `Alumno` *(hereda de `Persona`)*
+
+| Atributo | Descripción |
+|---|---|
+| `legajo` | Identificador |
+| `notas` | Diccionario `{materia_nombre: nota}` |
+
+| Método | Descripción |
+|---|---|
+| `agregar_nota(materia, nota)` | Agrega/actualiza la nota |
+| `promedio()` | Retorna el promedio de todas las notas |
+
+---
+
+### Clase `Profesor` *(hereda de `Persona`)*
+
+| Atributo | Descripción |
+|---|---|
+| `materia` | Nombre de la materia que dicta |
+| `sueldo` | Float |
+
+| Método | Descripción |
+|---|---|
+| `tomar_nota(alumno, nota)` | Llama a `alumno.agregar_nota(self.materia, nota)` |
+
+---
+
+### Clase `Materia`
+
+| Atributo | Descripción |
+|---|---|
+| `nombre` | Nombre de la materia |
+| `profesor` | Objeto `Profesor` |
+| `alumnos` | Lista de `Alumno` inscriptos |
+
+| Método | Descripción |
+|---|---|
+| `inscribir(alumno)` | Agrega a la lista de alumnos |
+| `promedio_general()` | Retorna el promedio de notas de la materia entre todos los alumnos inscriptos |
+
+---
+
+### Clase `Colegio`
+
+| Atributo | Descripción |
+|---|---|
+| `nombre` | Nombre del colegio |
+| `alumnos` | Lista de `Alumno` |
+| `profesores` | Lista de `Profesor` |
+| `materias` | Lista de `Materia` |
+
+| Método | Descripción |
+|---|---|
+| `inscribir_alumno(a)` | Agrega a la lista de alumnos |
+| `contratar_profesor(p)` | Agrega a la lista de profesores |
+| `crear_materia(nombre, profesor)` | Crea y retorna una `Materia`, y la agrega al colegio |
+| `mejor_promedio()` | Retorna el alumno con el promedio más alto |
+
+---
+
+## Ejercicio 19 — Sistema completo (MercadoLibre)
 
 Crear un sistema de usuarios:
 
@@ -457,7 +747,7 @@ Crear un sistema de usuarios:
 
 **Admin:** ve todos los productos, los elimina, y crea nuevos con nombre y precio.
 
-## Ejercicio 16 — Sistema Bancario Completo
+## Ejercicio 20 — Sistema Bancario Completo
 
 Crear un sistema bancario con cuentas, tarjetas, préstamos, inversiones, empleados y sucursales.
 
@@ -840,7 +1130,7 @@ Los siguientes ejercicios refuerzan los temas agregados a la teoría: encapsulam
 
 ## Encapsulamiento y `@property`
 
-### Ejercicio 17 — Temperatura con validación
+### Ejercicio 21 — Temperatura con validación
 
 Crear una clase `Temperatura` que guarde una temperatura en grados Celsius, pero **nunca permita** bajar de -273.15 (cero absoluto).
 
@@ -860,7 +1150,7 @@ print(t.kelvin)       # 298.15
 t.celsius = -300      # ValueError
 ```
 
-### Ejercicio 18 — Producto con stock
+### Ejercicio 22 — Producto con stock
 
 Crear una clase `Producto` donde el stock no se pueda modificar libremente desde afuera.
 
@@ -878,7 +1168,7 @@ La idea: forzar al usuario a modificar el stock **solo** a través de `reponer()
 
 ## Métodos de clase y estáticos
 
-### Ejercicio 19 — Empleado con contador
+### Ejercicio 23 — Empleado con contador
 
 Crear una clase `Empleado` que lleve la cuenta de cuántos empleados se crearon.
 
@@ -898,7 +1188,7 @@ print(Empleado.total_empleados())       # 2
 print(Empleado.es_sueldo_valido(-100))  # False
 ```
 
-### Ejercicio 20 — Fecha con factory methods
+### Ejercicio 24 — Fecha con factory methods
 
 Crear una clase `Fecha` con `dia`, `mes`, `anio` y varios constructores alternativos.
 
@@ -913,7 +1203,7 @@ Crear una clase `Fecha` con `dia`, `mes`, `anio` y varios constructores alternat
 
 ## Polimorfismo
 
-### Ejercicio 21 — Figuras geométricas
+### Ejercicio 25 — Figuras geométricas
 
 Crear una jerarquía de figuras donde todas tengan el método `area()` pero cada una lo calcule distinto.
 
@@ -934,7 +1224,7 @@ def area_total(figuras):
 
 La gracia del polimorfismo: `area_total()` no necesita saber qué tipo de figura es cada una, solo llama a `.area()`.
 
-### Ejercicio 22 — Medios de pago
+### Ejercicio 26 — Medios de pago
 
 Crear una jerarquía de medios de pago:
 
@@ -951,7 +1241,7 @@ Crear una clase `Caja` con un método `procesar_pagos(lista_pagos, monto)` que r
 
 ## Dunder methods (sobrecarga de operadores)
 
-### Ejercicio 23 — Vector 2D
+### Ejercicio 27 — Vector 2D
 
 Crear una clase `Vector2D` que represente un vector en el plano y soporte operaciones como números:
 
@@ -974,7 +1264,7 @@ print(abs(v1))   # 5.0
 print(v1 == Vector2D(3, 4))  # True
 ```
 
-### Ejercicio 24 — Carrito comparable
+### Ejercicio 28 — Carrito comparable
 
 Reescribir el `Carrito` del ejercicio 5 para que soporte:
 
@@ -989,7 +1279,7 @@ Reescribir el `Carrito` del ejercicio 5 para que soporte:
 
 ## Agregación vs Composición
 
-### Ejercicio 25 — Universidad (agregación)
+### Ejercicio 29 — Universidad (agregación)
 
 Modelar una universidad donde:
 
@@ -1002,7 +1292,7 @@ Modelar una universidad donde:
 
 Los `Estudiante` se crean **afuera** y se pasan a `inscribir()`.
 
-### Ejercicio 26 — Computadora (composición)
+### Ejercicio 30 — Computadora (composición)
 
 Modelar una computadora donde los componentes **mueren con ella** (composición).
 
@@ -1019,7 +1309,7 @@ La `Computadora` **no recibe** los componentes desde afuera: los construye ella 
 
 ## Clases abstractas
 
-### Ejercicio 27 — Empleados con sueldo distinto
+### Ejercicio 31 — Empleados con sueldo distinto
 
 Crear una clase abstracta `Empleado` y dos subclases que calculen el sueldo de forma diferente.
 
@@ -1036,7 +1326,7 @@ EmpleadoMensual("Ana", 80000).calcular_sueldo()        # 80000
 EmpleadoPorHora("Juan", 2000, 40).calcular_sueldo()    # 80000
 ```
 
-### Ejercicio 28 — Notificadores
+### Ejercicio 32 — Notificadores
 
 Crear una clase abstracta `Notificador` que represente cualquier medio para enviar avisos.
 
